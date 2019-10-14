@@ -7,5 +7,7 @@
   <name>Beanius Demo App</name>
   <modules>
   	<module>movies-data</module>
+  	<module>movies-service</module>
+  	<module>movies-api</module>
   </modules>
 </project>
