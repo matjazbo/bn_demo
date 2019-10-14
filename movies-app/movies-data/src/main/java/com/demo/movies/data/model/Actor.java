@@ -9,21 +9,21 @@ import javax.persistence.ManyToMany;
 
 @Entity
 public class Actor {
-	
+
 	@Id
 	private Long id;
 
 	private String firstName;
-	
-	private String lastName;
-	
-	private Date dateOfBirth;
-	
-    @ManyToMany(mappedBy = "actors")
-    private List<Movie> movies;
 
-    
-    
+	private String lastName;
+
+	private Date dateOfBirth;
+
+	@ManyToMany(mappedBy = "actors")
+	private List<Movie> movies;
+
+
+
 	public Long getId() {
 		return id;
 	}
