@@ -11,17 +11,17 @@ public class Movie {
 
 	@Id
 	private String id;
-	
+
 	private String title;
-	
+
 	private Integer year;
-	
+
 	private String description;
-	
+
 	@ManyToMany
 	private List<Actor> actors;
 
-	
+
 	
 	public String getId() {
 		return id;
@@ -62,5 +62,5 @@ public class Movie {
 	public void setActors(List<Actor> actors) {
 		this.actors = actors;
 	}
-	
+
 }
