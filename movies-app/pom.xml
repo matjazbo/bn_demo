@@ -1,13 +1,74 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.demo</groupId>
-  <artifactId>movies-app</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>Beanius Demo App</name>
-  <modules>
-  	<module>movies-data</module>
-  	<module>movies-service</module>
-  	<module>movies-api</module>
-  </modules>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.demo</groupId>
+	<artifactId>movies-app</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Beanius Demo App</name>
+	<modules>
+		<module>movies-data</module>
+		<module>movies-service</module>
+		<module>movies-api</module>
+	</modules>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<kumuluzee.version>3.5.0</kumuluzee.version>
+		<kumuluzee-rest.version>1.2.3</kumuluzee-rest.version>
+		<kumuluzee-cors.version>1.0.5</kumuluzee-cors.version>
+		<h2database.version>1.4.199</h2database.version>
+	</properties>
+
+	<dependencyManagement>
+
+		<dependencies>
+
+			<!-- KumuluzEE core -->
+			<dependency>
+				<groupId>com.kumuluz.ee</groupId>
+				<artifactId>kumuluzee-bom</artifactId>
+				<version>${kumuluzee.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- H2 database -->
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>${h2database.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.kumuluz.ee.rest</groupId>
+				<artifactId>kumuluzee-rest-core</artifactId>
+				<version>${kumuluzee-rest.version}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.kumuluz.ee</groupId>
+				<artifactId>kumuluzee-maven-plugin</artifactId>
+				<version>${kumuluzee.version}</version>
+				<executions>
+					<execution>
+						<id>package</id>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>
