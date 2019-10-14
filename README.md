@@ -1,2 +1,2 @@
-# bn_demo
+# Beanius demo project
 Beanius demo project
