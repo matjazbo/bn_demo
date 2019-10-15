@@ -17,6 +17,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.demo.movies.data.model.validation.ImdbId;
+
 
 @Entity
 @NamedQueries(value = {
@@ -26,6 +28,7 @@ public class Movie {
 
 	@Id
 	@NotNull
+	@ImdbId
 	private String id;	// imdb id, tt0119654
 
 	@NotNull
