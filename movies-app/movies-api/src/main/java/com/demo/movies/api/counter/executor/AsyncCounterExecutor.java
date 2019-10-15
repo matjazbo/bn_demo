@@ -29,7 +29,7 @@ public class AsyncCounterExecutor extends AbstractCounterExecutor {
 				counter.increaseCounter();
 			} catch (Exception e) {
 				// exception in the thread, just log
-				logger.error("Error increasing counter " + counter, e);
+				logger.error("Error in threaded counter increase " + counter, e);
 			}
 		});
 	}
