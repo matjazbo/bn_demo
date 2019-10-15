@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>com.demo</groupId>
 		<artifactId>movies-app</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>${demoproject.version}</version>
 	</parent>
 	<artifactId>movies-data</artifactId>
 	<name>Data Service Layer</name>
-	
-<dependencies>
+
+	<dependencies>
 
 		<!-- Hibernate JPA -->
 		<dependency>
@@ -28,6 +28,21 @@
 			<artifactId>h2</artifactId>
 		</dependency>
 
+
+		<!-- Bean validation -->
+		<dependency>
+			<groupId>com.kumuluz.ee</groupId>
+			<artifactId>kumuluzee-el-uel</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.kumuluz.ee</groupId>
+			<artifactId>kumuluzee-bean-validation-hibernate-validator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
+
 	</dependencies>
-	
+
 </project>

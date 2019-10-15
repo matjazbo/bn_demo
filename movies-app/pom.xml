@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.demo</groupId>
 	<artifactId>movies-app</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${demoproject.version}</version>
 	<packaging>pom</packaging>
 	<name>Beanius Demo App</name>
 	<modules>
@@ -14,9 +14,11 @@
 	</modules>
 
 	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.13</maven.compiler.source>
+		<maven.compiler.target>1.13</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<demoproject.version>0.0.1-SNAPSHOT</demoproject.version>
 
 		<kumuluzee.version>3.5.0</kumuluzee.version>
 		<kumuluzee-rest.version>1.2.3</kumuluzee-rest.version>
