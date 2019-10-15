@@ -10,9 +10,12 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 
+import com.demo.movies.api.cache.RequestClientCachingBuilder;
 import com.demo.movies.data.model.Movie;
 import com.demo.movies.service.MovieService;
 
@@ -31,10 +34,14 @@ public class MovieResource {
 	@Inject
 	private MovieService movieService;
 	
+	@Inject
+	private RequestClientCachingBuilder cacheBuilder;	
+	
 	@GET
-	public Response getMovies() {
+	public Response getMovies(@Context Request request) {
 		List<Movie> movies = movieService.getAllMovies();
-		return Response.status(Response.Status.OK).entity(movies).build();
+		
+		return cacheBuilder.addCaching(request, movies).build();
 	}
 
 	@POST
