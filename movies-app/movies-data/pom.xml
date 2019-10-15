@@ -12,11 +12,15 @@
 
 	<dependencies>
 
-		<!-- Hibernate JPA -->
+		<!-- Hibernate JPA & Narayana JTA -->
 		<dependency>
 			<groupId>com.kumuluz.ee</groupId>
 			<artifactId>kumuluzee-jpa-hibernate</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.kumuluz.ee</groupId>
+			<artifactId>kumuluzee-jta-narayana</artifactId>
+		</dependency>		
 		<dependency>
 			<groupId>com.kumuluz.ee</groupId>
 			<artifactId>kumuluzee-core</artifactId>

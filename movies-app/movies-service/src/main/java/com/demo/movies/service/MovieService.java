@@ -6,6 +6,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 import com.demo.movies.data.model.Movie;
 
@@ -27,6 +28,7 @@ public class MovieService {
 		return result;
 	}
 
+	@Transactional
 	public void newMovie(Movie movie) {
 		em.persist(movie);
 	}	
