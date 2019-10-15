@@ -1,6 +1,7 @@
 package com.demo.movies.api.annotation;
 
 import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
@@ -15,7 +16,7 @@ import javax.inject.Qualifier;
  *
  */
 @Retention(RUNTIME)
-@Target({ TYPE })
+@Target({ TYPE, FIELD })
 @Qualifier
 public @interface Asynchronous {
 
