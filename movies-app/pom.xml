@@ -10,6 +10,7 @@
 		<module>movies-data</module>
 		<module>movies-service</module>
 		<module>movies-api</module>
+		<module>uploader-service</module>
 	</modules>
 
 	<properties>
