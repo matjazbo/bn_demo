@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -44,16 +45,33 @@ public class Movie {
 	@Size(max = 5000)
 	private String description;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
 			name = "movies_actors", 
 			joinColumns = @JoinColumn(name = "movie_id"), 
 			inverseJoinColumns = @JoinColumn(name = "actor_id"))	
 	private List<Actor> actors;
-	
-	@OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+
+	@OneToMany(mappedBy = "movie")
+	@Transient
 	private List<Image> images;
 
+	/**
+	 * Two Movies with the same id should be equal
+	 */
+	@Override
+	public int hashCode() {
+		if (id==null) return 0;
+		return id.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder s = new StringBuilder(getId());
+		s.append("] ").append(getTitle()).append(", ").append(getYear());
+		return s.toString();
+	}	
+	
 	/******* getters and setters below *******/
 
 	public String getId() {
@@ -88,9 +106,14 @@ public class Movie {
 		this.description = description;
 	}
 
-	// list of actors
 
-	// pictures
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
 
 	public List<Actor> getActors() {
 		return actors;
@@ -100,19 +123,5 @@ public class Movie {
 		this.actors = actors;
 	}
 
-	/**
-	 * Two Movies with the same id should be equal
-	 */
-	@Override
-	public int hashCode() {
-		if (id==null) return 1;
-		return id.hashCode();
-	}
 
-	@Override
-	public String toString() {
-		StringBuilder s = new StringBuilder(getId());
-		s.append("] ").append(getTitle()).append(", ").append(getYear());
-		return s.toString();
-	}	
 }

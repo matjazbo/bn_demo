@@ -8,6 +8,7 @@
 
 		<class>com.demo.movies.data.model.Movie</class>
 		<class>com.demo.movies.data.model.Actor</class>
+		<class>com.demo.movies.data.model.Image</class>
 
 		<properties>
 
