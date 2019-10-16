@@ -1,6 +1,6 @@
 package com.demo.movies.api.counter;
 
-abstract class AbstractCounter implements Counter, Identifiable<String> {
+abstract class AbstractCounter implements Counter {
 
 	String counterId;
 	
