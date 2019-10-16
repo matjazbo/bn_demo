@@ -1,6 +1,7 @@
 package com.demo.movies.data.model;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,7 +14,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -24,7 +24,7 @@ import com.demo.movies.data.model.validation.ImdbId;
 
 @Entity
 @NamedQueries(value = {
-		@NamedQuery(name = "Movie.fetchAll", query = "SELECT m FROM Movie m")
+		@NamedQuery(name = "Movie.fetchAll", query = "SELECT m FROM Movie m LEFT JOIN FETCH m.actors LEFT JOIN FETCH m.images")
 }) 
 public class Movie {
 
@@ -45,16 +45,15 @@ public class Movie {
 	@Size(max = 5000)
 	private String description;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
 			name = "movies_actors", 
 			joinColumns = @JoinColumn(name = "movie_id"), 
 			inverseJoinColumns = @JoinColumn(name = "actor_id"))
 	@Column(updatable = false)	// this doesnt work, why?
-	private List<Actor> actors;
+	private Set<Actor> actors;
 
-	@OneToMany(mappedBy = "movie")
-	@Transient
+	@OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
 	private List<Image> images;
 
 	/**
@@ -116,11 +115,11 @@ public class Movie {
 		this.images = images;
 	}
 
-	public List<Actor> getActors() {
+	public Set<Actor> getActors() {
 		return actors;
 	}
 
-	public void setActors(List<Actor> actors) {
+	public void setActors(Set<Actor> actors) {
 		this.actors = actors;
 	}
 
