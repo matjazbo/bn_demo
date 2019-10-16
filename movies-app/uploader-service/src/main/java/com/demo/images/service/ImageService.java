@@ -17,9 +17,9 @@ public class ImageService {
 	@PersistenceContext
 	private EntityManager em;	
 	
-	public List<Image> getImagesForMovieId(@ImdbId String movideId) {
+	public List<Image> getImagesForMovieId(@ImdbId String movieId) {
 		TypedQuery<Image> query = em.createQuery("SELECT * FROM image i WHERE i.movie_id = ?1", Image.class);
-		query.setParameter(1, movideId);
+		query.setParameter(1, movieId);
 		List<Image> result = query.getResultList();
 		return result;
 	}
