@@ -7,3 +7,8 @@ kumuluzee:
       password: 
       pool:
         max-size: 20
+
+movies:
+  counters:
+    file-system:
+      path: c:/temp/
