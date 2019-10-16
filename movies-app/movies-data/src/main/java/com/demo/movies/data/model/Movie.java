@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -49,6 +50,9 @@ public class Movie {
 			joinColumns = @JoinColumn(name = "movie_id"), 
 			inverseJoinColumns = @JoinColumn(name = "actor_id"))	
 	private List<Actor> actors;
+	
+	@OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+	private List<Image> images;
 
 	/******* getters and setters below *******/
 
