@@ -63,7 +63,7 @@ public class MovieResource {
 	}
 
 	@PUT
-	public Response updateMovie(@Valid Movie movie) {
+	public Response updateMovie(@Valid Movie movie) {		
 		movieService.updateMovie(movie);
 		return Response.noContent().build();
 	}

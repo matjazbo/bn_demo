@@ -49,7 +49,8 @@ public class Movie {
 	@JoinTable(
 			name = "movies_actors", 
 			joinColumns = @JoinColumn(name = "movie_id"), 
-			inverseJoinColumns = @JoinColumn(name = "actor_id"))	
+			inverseJoinColumns = @JoinColumn(name = "actor_id"))
+	@Column(updatable = false)	// this doesnt work, why?
 	private List<Actor> actors;
 
 	@OneToMany(mappedBy = "movie")

@@ -42,6 +42,8 @@ public class MovieService {
 
 	@Transactional
 	public void updateMovie(@Valid Movie movie) {
+		Movie movieInDb = em.getReference(Movie.class, movie.getId());
+		movie.setActors(movieInDb.getActors());
 		em.merge(movie);
 	}
 	
@@ -54,7 +56,7 @@ public class MovieService {
 		// TODO - remove with
 		//  @Modifying
 	    //	@Query("DELETE Book b WHERE b.category.id = ?1")
-		Movie movie = em.find(Movie.class, movieId);
+		Movie movie = em.getReference(Movie.class, movieId);
 		if (movie!=null) {
 			em.remove(movie);
 		}
