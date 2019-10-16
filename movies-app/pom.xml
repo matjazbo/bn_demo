@@ -11,6 +11,7 @@
 		<module>movies-service</module>
 		<module>movies-api</module>
 		<module>uploader-service</module>
+		<module>images-api</module>
 	</modules>
 
 	<properties>

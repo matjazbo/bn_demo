@@ -1,0 +1,17 @@
+# KumuluzEE application configuration
+kumuluzee:
+  datasources:
+    - jndi-name: jdbc/MoviesDataSource
+      connection-url: jdbc:h2:mem:movies
+      username: 
+      password: 
+      pool:
+        max-size: 20
+  server:
+    http:
+      port: 8081
+
+movies:
+  counters:
+    file-system:
+      path: c:/temp/

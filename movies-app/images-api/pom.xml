@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.demo</groupId>
+    <artifactId>movies-app</artifactId>
+    <version>${demoproject.version}</version>
+  </parent>
+  <artifactId>images-api</artifactId>
+  
+	<dependencies>
+
+		<!-- Service layer -->
+		<dependency>
+			<groupId>com.demo</groupId>
+			<artifactId>movies-service</artifactId>
+			<version>${demoproject.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.demo</groupId>
+			<artifactId>uploader-service</artifactId>
+			<version>${demoproject.version}</version>
+		</dependency>
+
+		<!-- KumuluzEE Core -->
+		<dependency>
+			<groupId>com.kumuluz.ee</groupId>
+			<artifactId>kumuluzee-core</artifactId>
+		</dependency>
+
+		<!-- Jetty web/app server -->
+		<dependency>
+			<groupId>com.kumuluz.ee</groupId>
+			<artifactId>kumuluzee-servlet-jetty</artifactId>
+		</dependency>
+
+		<!-- JAX RS -->
+		<dependency>
+			<groupId>com.kumuluz.ee</groupId>
+			<artifactId>kumuluzee-jax-rs-jersey</artifactId>
+		</dependency>
+
+		<!-- KumuluzEE CDI -->
+		<dependency>
+			<groupId>com.kumuluz.ee</groupId>
+			<artifactId>kumuluzee-cdi-weld</artifactId>
+		</dependency>
+
+		<!-- Log4J2 -->
+		<dependency>
+			<groupId>com.kumuluz.ee.logs</groupId>
+			<artifactId>kumuluzee-logs-log4j2</artifactId>
+		</dependency>
+
+		<!-- Testing -->
+		<dependency>
+			<groupId>com.kumuluz.ee.testing</groupId>
+			<artifactId>kumuluzee-arquillian-container</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>  
+</project>

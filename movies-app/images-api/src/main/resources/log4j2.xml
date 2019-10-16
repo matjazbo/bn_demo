@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration name="customers">
+
+	<Loggers>
+
+		<!-- Default logger -->
+		<Root level="info">
+			<AppenderRef ref="console" />
+		</Root>
+
+		<!-- Default logger for API -->
+		<Logger name="com.demo.images.api" level="debug" additivity="false">
+			<AppenderRef ref="console" />
+		</Logger>
+
+	</Loggers>
+
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<ThresholdFilter level="all" onMatch="ACCEPT" onMismatch="DENY" />
+			<PatternLayout pattern="%d %p %c{1.} %M [%t] %m%n" />
+		</Console>
+	</Appenders>
+
+</Configuration>
