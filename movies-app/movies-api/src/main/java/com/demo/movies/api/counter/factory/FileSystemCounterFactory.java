@@ -25,6 +25,7 @@ public class FileSystemCounterFactory extends AbstractCounterFactory {
 		FileSystemCounter c = FileSystemCounter.newInstance();
 		c.setId(counter);
 		String countersFilesystemPath = config.getCountersFilesystemPath();
+		// TODO - check if property is missing
 		
 		c.setFile(new File(countersFilesystemPath + "/" + counter));
 		return c;

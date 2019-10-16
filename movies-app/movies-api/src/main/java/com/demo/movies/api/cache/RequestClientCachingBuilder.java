@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 /**
  * Builds response with client caching for the given request
+ * TODO - add configuration option to add max-age
  * 
  * @author Matjaz
  *
