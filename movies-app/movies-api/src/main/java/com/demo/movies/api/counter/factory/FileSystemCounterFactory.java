@@ -3,7 +3,9 @@ package com.demo.movies.api.counter.factory;
 import java.io.File;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 
+import com.demo.movies.api.configuration.MoviesConfiguration;
 import com.demo.movies.api.counter.Counter;
 import com.demo.movies.api.counter.FileSystemCounter;
 
@@ -16,11 +18,15 @@ import com.demo.movies.api.counter.FileSystemCounter;
 @RequestScoped
 public class FileSystemCounterFactory extends AbstractCounterFactory {
 	
+	@Inject MoviesConfiguration config;
+	
 	@Override
 	protected Counter createNewCounter(String counter) {
 		FileSystemCounter c = FileSystemCounter.newInstance();
 		c.setId(counter);
-		c.setFile(new File("c:/temp/"+counter));	// TODO - better file creation, use configuration
+		String countersFilesystemPath = config.getCountersFilesystemPath();
+		
+		c.setFile(new File(countersFilesystemPath + "/" + counter));
 		return c;
 	}
 
