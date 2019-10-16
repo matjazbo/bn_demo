@@ -12,6 +12,10 @@
 		<Logger name="com.demo.movies.api" level="debug" additivity="false">
 			<AppenderRef ref="console" />
 		</Logger>
+		
+		<Logger name="org.hibernate.SQL" level="debug" additivity="false">
+			<AppenderRef ref="console" />
+		</Logger>		
 
 	</Loggers>
 
