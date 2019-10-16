@@ -15,9 +15,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.demo.movies.api.cache.RequestClientCachingBuilder;
 import com.demo.movies.data.model.Movie;
 import com.demo.movies.service.MovieService;
+import com.kumuluz.ee.logs.cdi.Log;
+import com.kumuluz.ee.logs.cdi.LogParams;
 
 /**
  * Class providing API for Movies and Actors business logic.
@@ -29,8 +34,11 @@ import com.demo.movies.service.MovieService;
 @Path("/movies")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Log(LogParams.METRICS)
 public class MovieResource {
 
+	private static final Logger logger = LogManager.getLogger(MovieResource.class);
+	
 	@Inject
 	private MovieService movieService;
 	
@@ -39,6 +47,7 @@ public class MovieResource {
 	
 	@GET
 	public Response getMovies(@Context Request request) {
+		logger.info("works!");
 		List<Movie> movies = movieService.getAllMovies();
 		
 		return cacheBuilder.addCaching(request, movies).build();
