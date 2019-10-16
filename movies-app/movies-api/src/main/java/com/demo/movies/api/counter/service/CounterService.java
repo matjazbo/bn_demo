@@ -32,25 +32,29 @@ public class CounterService {
 	/**
 	 * Executes (increases) a counter using the default execution strategy
 	 */
-	public void increaseCounter(String counterId) {
-		increaseCounter(counterId, defaultCounterExecutor);
+	public Counter increaseCounter(String counterId) {
+		return increaseCounter(counterId, defaultCounterExecutor);
 	}
 	
 	/**
 	 * Executes (increases) a counter using the given execution strategy
+	 * 
+	 * @return returns a Counter object if increaseCounter succeeded, otherwise null
 	 */
-	public void increaseCounter(String counterId, CounterExecutor executor) {
+	public Counter increaseCounter(String counterId, CounterExecutor executor) {
 		if (executor==null) executor = defaultCounterExecutor;
 		
 		Counter counter = counterFactory.getCounter(counterId);
 		
 		try {
 			executor.execute(counter);
+			return counter;
 		} catch (Exception e) {
 			logger.error("Error increasing counter " + counterId, e);
 			// eating up the exception and not bothering the client with it
 			// rethrow if client needs to handle this problem
 		}
+		return null;
 	}
 	
 }
