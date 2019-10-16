@@ -12,6 +12,12 @@
 
 	<dependencies>
 
+		<!-- JAX RS -->
+		<dependency>
+			<groupId>com.kumuluz.ee</groupId>
+			<artifactId>kumuluzee-jax-rs-jersey</artifactId>
+		</dependency>
+		
 		<!-- Hibernate JPA & Narayana JTA -->
 		<dependency>
 			<groupId>com.kumuluz.ee</groupId>
