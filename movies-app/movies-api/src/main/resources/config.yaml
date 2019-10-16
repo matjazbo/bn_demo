@@ -7,6 +7,9 @@ kumuluzee:
       password: 
       pool:
         max-size: 20
+  server:
+    http:
+      port: 8080
 
 movies:
   counters:
