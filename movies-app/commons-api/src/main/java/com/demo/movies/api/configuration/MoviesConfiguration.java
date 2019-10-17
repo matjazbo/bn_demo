@@ -13,11 +13,6 @@ public class MoviesConfiguration {
     private String countersFilesystemPath;
 
 	public String getCountersFilesystemPath() {
-		// if last character is a / or \ then remove it
-		char lastChar = countersFilesystemPath.charAt(countersFilesystemPath.length()-1);
-		if (lastChar=='/' || lastChar=='\\') 
-			countersFilesystemPath = countersFilesystemPath.substring(0, countersFilesystemPath.length()-1); 
-
 		return countersFilesystemPath;
 	}
 

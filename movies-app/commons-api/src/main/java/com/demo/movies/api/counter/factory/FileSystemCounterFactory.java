@@ -38,10 +38,15 @@ public class FileSystemCounterFactory extends AbstractCounterFactory {
 				return null;
 			}
 			
-			FileSystemCounter c = FileSystemCounter.newInstance();
-			c.setId(counterId);
+			// create folder if it doesnt exist (robustness++)
+			File folder = new File(countersFilesystemPath);
+			if (!folder.exists()) {
+				folder.mkdir();
+			}
 			
-			c.setFile(new File(countersFilesystemPath + "/" + counterId));
+			FileSystemCounter c = FileSystemCounter.newInstance();
+			c.setId(counterId);			
+			c.setFile(new File(countersFilesystemPath, counterId));
 			return c;
 		} catch (Exception e) {
 			logger.error("Error creating new counter with id " + counterId, e);
