@@ -46,6 +46,11 @@ public class CounterService {
 		
 		Counter counter = counterFactory.getCounter(counterId);
 		
+		if (counter == null) {
+			logger.error("Could not increase counter, because factory didn't create object.");
+			return null;
+		}
+		
 		try {
 			executor.execute(counter);
 			return counter;
