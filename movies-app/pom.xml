@@ -12,6 +12,7 @@
 		<module>movies-api</module>
 		<module>uploader-service</module>
 		<module>images-api</module>
+		<module>commons-api</module>
 	</modules>
 
 	<properties>

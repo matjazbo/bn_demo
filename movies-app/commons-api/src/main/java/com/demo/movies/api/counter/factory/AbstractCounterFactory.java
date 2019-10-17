@@ -34,6 +34,7 @@ public abstract class AbstractCounterFactory implements CounterFactory {
 			}
 		}
 		Counter c = createNewCounter(counterId);
+		if (c == null) return null;
 		counterCache.put(counterId, c);
 		logger.trace("New counter for id {} created, added to cache.");
 		return c;

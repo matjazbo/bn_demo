@@ -17,6 +17,11 @@
 			<artifactId>movies-service</artifactId>
 			<version>${demoproject.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.demo</groupId>
+			<artifactId>commons-api</artifactId>
+			<version>${demoproject.version}</version>
+		</dependency>
 
 		<!-- KumuluzEE Core -->
 		<dependency>
@@ -34,18 +39,6 @@
 		<dependency>
 			<groupId>com.kumuluz.ee</groupId>
 			<artifactId>kumuluzee-jax-rs-jersey</artifactId>
-		</dependency>
-
-		<!-- KumuluzEE CDI -->
-		<dependency>
-			<groupId>com.kumuluz.ee</groupId>
-			<artifactId>kumuluzee-cdi-weld</artifactId>
-		</dependency>
-
-		<!-- Log4J2 -->
-		<dependency>
-			<groupId>com.kumuluz.ee.logs</groupId>
-			<artifactId>kumuluzee-logs-log4j2</artifactId>
 		</dependency>
 
 		<!-- Testing -->
