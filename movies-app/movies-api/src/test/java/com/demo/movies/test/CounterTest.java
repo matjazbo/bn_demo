@@ -72,7 +72,7 @@ public class CounterTest {
     	System.out.println(counter);
     	if (counter instanceof FileSystemCounter) {
     		String filePath = config.getCountersFilesystemPath();
-			File f = new File(filePath + "/" + counter.getId());
+			File f = new File(filePath, counter.getId());
 			
 			Long counterValueBefore = Long.valueOf(Files.readString(f.toPath()));
 			logger.info("counterBefore={}", counterValueBefore);

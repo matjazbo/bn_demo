@@ -9,4 +9,4 @@ insert into movies_actors (movie_id, actor_id) values ('tt0083658', 10000)
 insert into movies_actors (movie_id, actor_id) values ('tt1856101', 10000)
 insert into movies_actors (movie_id, actor_id) values ('tt1856101', 10001)
 
-insert into image (id, movie_id, name) values (1, 'tt0083658', 'movie_poster.jpg')
+insert into image (id, movie_id, name) values (10000, 'tt0083658', 'movie_poster.jpg')
