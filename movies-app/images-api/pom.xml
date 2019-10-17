@@ -1,12 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.demo</groupId>
-    <artifactId>movies-app</artifactId>
-    <version>${demoproject.version}</version>
-  </parent>
-  <artifactId>images-api</artifactId>
-  
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.demo</groupId>
+		<artifactId>movies-app</artifactId>
+		<version>${demoproject.version}</version>
+	</parent>
+	<artifactId>images-api</artifactId>
+
 	<dependencies>
 
 		<!-- Service layer -->
@@ -18,6 +19,11 @@
 		<dependency>
 			<groupId>com.demo</groupId>
 			<artifactId>uploader-service</artifactId>
+			<version>${demoproject.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.demo</groupId>
+			<artifactId>commons-api</artifactId>
 			<version>${demoproject.version}</version>
 		</dependency>
 
@@ -38,17 +44,16 @@
 			<groupId>com.kumuluz.ee</groupId>
 			<artifactId>kumuluzee-jax-rs-jersey</artifactId>
 		</dependency>
-
-		<!-- KumuluzEE CDI -->
+		
 		<dependency>
-			<groupId>com.kumuluz.ee</groupId>
-			<artifactId>kumuluzee-cdi-weld</artifactId>
+			<groupId>org.glassfish.jersey.ext</groupId>
+			<artifactId>jersey-metainf-services</artifactId>
+			<version>2.28</version>
 		</dependency>
-
-		<!-- Log4J2 -->
 		<dependency>
-			<groupId>com.kumuluz.ee.logs</groupId>
-			<artifactId>kumuluzee-logs-log4j2</artifactId>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-multipart</artifactId>
+			<version>2.28</version>
 		</dependency>
 
 		<!-- Testing -->
@@ -67,5 +72,6 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>  
+	</dependencies>
+
 </project>

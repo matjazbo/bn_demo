@@ -15,3 +15,6 @@ movies:
   counters:
     file-system:
       path: c:/temp/
+  image:
+    upload:
+      path: c:/temp
