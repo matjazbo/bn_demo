@@ -12,6 +12,8 @@ kumuluzee:
       port: 8080
 
 movies:
+  service-images:
+    url: http://localhost:8081/images
   http-cache:
     max-age: 60
   counters:

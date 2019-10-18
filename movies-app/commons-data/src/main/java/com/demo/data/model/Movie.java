@@ -68,6 +68,7 @@ public class Movie {
 
 	/**
 	 * Two Movies with the same id should be equal
+	 * TODO - hash code should be calculated from every field value
 	 */
 	@Override
 	public int hashCode() {

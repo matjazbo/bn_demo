@@ -54,6 +54,15 @@ public class ImageResource {
 		return cacheBuilder.addCaching(request, images).build();
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/movies/{moviesIds}")
+	public Response getImagesForMoviesIds(@PathParam("moviesIds") String moviesIds, @Context Request request) {
+		List<Image> images = imageService.getImagesForMoviesIds(moviesIds);
+		return cacheBuilder.addCaching(request, images).build();
+	}
+	
 	@POST
 	@Path("/upload/{movieId}")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)

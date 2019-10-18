@@ -4,6 +4,8 @@ package com.demo.images.service;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +55,7 @@ public class ImageService {
 	}
 	
 	private Optional<Movie> getMovie(String movieId) {
+		if (movieId==null) return Optional.empty();
 		WebTarget getMovieIdPath = moviesWebTarget.path(movieId);
 		Invocation.Builder invocationBuilder = getMovieIdPath.request(MediaType.APPLICATION_JSON);		
 		Movie response = invocationBuilder.get(Movie.class);
@@ -93,6 +96,14 @@ public class ImageService {
 		i.setName(fileNameWithId);
 		em.persist(i);
 		return i;
+	}
+
+	public List<Image> getImagesForMoviesIds(String moviesIds) {
+		if (moviesIds==null) return new ArrayList<>();
+		TypedQuery<Image> query = em.createQuery("SELECT i FROM Image i WHERE i.movieId IN ?1", Image.class);
+		query.setParameter(1, Arrays.asList(moviesIds.split(",")));
+		List<Image> result = query.getResultList();
+		return result;		
 	}
 	
 }
