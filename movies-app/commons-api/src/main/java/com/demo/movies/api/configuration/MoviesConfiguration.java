@@ -7,8 +7,9 @@ import com.kumuluz.ee.configuration.cdi.ConfigValue;
 
 @ApplicationScoped
 @ConfigBundle("movies")
-public class MoviesConfiguration {
+public class MoviesConfiguration extends ApplicationCommonConfiguration {
 
+	
     @ConfigValue(value = "counters.file-system.path", watch = true)
     private String countersFilesystemPath;
 

@@ -25,11 +25,13 @@ import org.yaml.snakeyaml.Yaml;
 
 import com.demo.movies.api.annotation.Asynchronous;
 import com.demo.movies.api.annotation.Synchronous;
+import com.demo.movies.api.configuration.CounterConfiguration;
 import com.demo.movies.api.configuration.MoviesConfiguration;
 import com.demo.movies.api.counter.Counter;
 import com.demo.movies.api.counter.FileSystemCounter;
 import com.demo.movies.api.counter.executor.AsyncCounterExecutor;
 import com.demo.movies.api.counter.executor.ImmediateCounterExecutor;
+import com.demo.movies.api.counter.factory.CounterFactory;
 import com.demo.movies.api.counter.service.CounterService;
 
 @RunWith(Arquillian.class)
@@ -39,12 +41,14 @@ public class CounterTest {
 
 	private static final String TEST_COUNTER_PREFIX = "counterTest-";
 	
-	@Inject CounterService counterService;
-	
 	@Inject @Synchronous ImmediateCounterExecutor 	synchronousCounterExecutor;
 	@Inject @Asynchronous AsyncCounterExecutor 		asynchronousCounterExecutor;
+	@Inject private CounterFactory counterFactory;
+	@Inject private CounterConfiguration counterConfiguration;
 	
 	@Inject MoviesConfiguration config;
+
+
 	
     @Deployment
     public static JavaArchive createDeployment() {
@@ -68,7 +72,9 @@ public class CounterTest {
     @Test
     public void testCounterServiceSynchronously() throws Exception {
     	int counterId = new Random().nextInt(100);
-    	Counter counter = counterService.increaseCounter(TEST_COUNTER_PREFIX + counterId, synchronousCounterExecutor);
+    	
+    	CounterService counterService = CounterService.getService(synchronousCounterExecutor, counterFactory, counterConfiguration);
+    	Counter counter = counterService.increaseCounter(TEST_COUNTER_PREFIX + counterId);
     	System.out.println(counter);
     	if (counter instanceof FileSystemCounter) {
     		String filePath = config.getCountersFilesystemPath();

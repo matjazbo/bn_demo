@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.demo.movies.api.configuration.CounterConfiguration;
 import com.demo.movies.api.counter.Counter;
 
 public abstract class AbstractCounterFactory implements CounterFactory {
@@ -19,12 +20,13 @@ public abstract class AbstractCounterFactory implements CounterFactory {
 	 * Method is thread safe.
 	 * 
 	 * @param counterId counter identifier
+	 * @param configuration a configuration object for creating the counter
 	 * @return new Counter object if it doesn't exist for given id, or an existing object from cache
 	 *
 	 * TODO - sync done in a hurry, check if everything is ok
 	 */
 	@Override
-	public Counter getCounter(String counterId) {
+	public Counter getCounter(String counterId, CounterConfiguration configuration) {
 		
 		synchronized (counterCache) {
 			if (counterCache.containsKey(counterId)) {
@@ -33,13 +35,13 @@ public abstract class AbstractCounterFactory implements CounterFactory {
 				return counterFromCache;
 			}
 		}
-		Counter c = createNewCounter(counterId);
+		Counter c = createNewCounter(counterId, configuration);
 		if (c == null) return null;
 		counterCache.put(counterId, c);
 		logger.trace("New counter for id {} created, added to cache.");
 		return c;
 	}
 
-	protected abstract Counter createNewCounter(String counter);
+	protected abstract Counter createNewCounter(String counter, CounterConfiguration configuration);
 	
 }

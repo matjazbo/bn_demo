@@ -3,12 +3,11 @@ package com.demo.movies.api.counter.factory;
 import java.io.File;
 
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.demo.movies.api.configuration.MoviesConfiguration;
+import com.demo.movies.api.configuration.CounterConfiguration;
 import com.demo.movies.api.counter.Counter;
 import com.demo.movies.api.counter.FileSystemCounter;
 
@@ -23,16 +22,14 @@ public class FileSystemCounterFactory extends AbstractCounterFactory {
 	
 	private static final Logger logger = LogManager.getLogger(FileSystemCounterFactory.class);
 	
-	@Inject MoviesConfiguration config;
-
 	/**
 	 * Creates a new file on the configuration path movies.counters.file-system.path
 	 * Returns a null object if it cannot create Counter.
 	 */
 	@Override
-	protected Counter createNewCounter(String counterId) {
+	protected Counter createNewCounter(String counterId, CounterConfiguration configuration) {
 		try {
-			String countersFilesystemPath = config.getCountersFilesystemPath();
+			String countersFilesystemPath = configuration.getCountersFilesystemPath();
 			if (countersFilesystemPath==null || countersFilesystemPath.isBlank()) {
 				logger.error("Could not create counter with id {}, because countersFilesystemPath is empty", counterId);
 				return null;
