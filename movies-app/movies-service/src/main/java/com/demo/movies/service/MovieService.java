@@ -6,6 +6,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -53,13 +54,9 @@ public class MovieService {
 			throw new IllegalArgumentException("Movie id missing");
 		}
 		
-		// TODO - remove with
-		//  @Modifying
-	    //	@Query("DELETE Book b WHERE b.category.id = ?1")
-		Movie movie = em.getReference(Movie.class, movieId);
-		if (movie!=null) {
-			em.remove(movie);
-		}
+		Query query = em.createQuery("DELETE Movie m WHERE m.id = ?1");
+		query.setParameter(1, movieId);
+		query.executeUpdate();
 	}
 
 }
