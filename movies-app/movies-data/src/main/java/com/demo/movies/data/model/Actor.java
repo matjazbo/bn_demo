@@ -81,5 +81,11 @@ public class Actor {
 		this.movies = movies;
 	}
 
+	@Override
+	public int hashCode() {
+		if (getId()==null) return 0;
+		return getId().hashCode();
+	}
+
 
 }
