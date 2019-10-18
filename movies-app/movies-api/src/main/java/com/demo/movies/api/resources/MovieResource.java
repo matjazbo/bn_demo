@@ -1,6 +1,7 @@
 package com.demo.movies.api.resources;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -50,11 +51,19 @@ public class MovieResource {
 	
 	@GET
 	public Response getMovies(@Context Request request) {
-		logger.info("works!");
 		List<Movie> movies = movieService.getAllMovies();
 		
 		return cacheBuilder.addCaching(request, movies).build();
 	}
+	
+	@GET
+	@Path("{movieId}")
+	public Response getMovie(@PathParam("movieId") String movieId, @Context Request request) {
+		Optional<Movie> movie = movieService.getMovie(movieId);
+		if (movie.isEmpty()) return Response.status(Response.Status.NOT_FOUND).build();
+		return cacheBuilder.addCaching(request, movie.get()).build();
+	}
+	
 
 	@POST
 	public Response addNewMovie(@Valid Movie newMovie) {

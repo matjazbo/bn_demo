@@ -51,6 +51,14 @@ public class Image {
 		this.movie = movie;
 	}
 	
+	public String getMovieId() {
+		return movieId;
+	}
+
+	public void setMovieId(String movieId) {
+		this.movieId = movieId;
+	}
+
 	@Override
 	public int hashCode() {
 		if (getId()==null) return 0;

@@ -5,13 +5,20 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.io.FileUtils;
 
@@ -27,13 +34,30 @@ public class ImageService {
 	private EntityManager em;
 	
 	@Inject
-	ImagesConfiguration configuration;
+	private ImagesConfiguration configuration;
+	
+	private Client client;
+	private WebTarget moviesWebTarget;
+	
+	@PostConstruct
+	public void init() {
+		client = ClientBuilder.newClient();
+		moviesWebTarget = client.target(configuration.getServiceMoviesUrl());
+	}
 	
 	public List<Image> getImagesForMovieId(@ImdbId String movieId) {
 		TypedQuery<Image> query = em.createQuery("SELECT i FROM Image i WHERE i.movieId = ?1", Image.class);
 		query.setParameter(1, movieId);
 		List<Image> result = query.getResultList();
 		return result;
+	}
+	
+	private Optional<Movie> getMovie(String movieId) {
+		WebTarget getMovieIdPath = moviesWebTarget.path(movieId);
+		Invocation.Builder invocationBuilder = getMovieIdPath.request(MediaType.APPLICATION_JSON);		
+		Movie response = invocationBuilder.get(Movie.class);
+		
+		return Optional.ofNullable(response);
 	}
 	
 	@Transactional
@@ -54,10 +78,10 @@ public class ImageService {
 	@Transactional
 	public Image uploadImageFile(InputStream fileInputStream, String fileName, String movieId) throws IOException {
 		
-		// 1. create an image to get image id
-		Movie movieRef = em.getReference(Movie.class, movieId);
+		// 1. check if move exists and set movie id
 		Image i = new Image();
-		i.setMovie(movieRef);
+		Movie movie = getMovie(movieId).orElseThrow();
+		i.setMovieId(movie.getId());
 		newImage(i);
 
 		// 2. prepend image id to filename to have unique filenames (or generate uuid?)
@@ -67,7 +91,7 @@ public class ImageService {
 		
 		// 3. set filename to Image and persist
 		i.setName(fileNameWithId);
-		em.merge(i);
+		em.persist(i);
 		return i;
 	}
 	

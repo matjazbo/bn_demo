@@ -12,6 +12,8 @@ kumuluzee:
       port: 8081
 
 movies:
+  service-movies:
+    url: http://localhost:8080/movies
   counters:
     file-system:
       path: c:/temp/

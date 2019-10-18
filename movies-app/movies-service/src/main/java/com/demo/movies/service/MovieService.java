@@ -2,6 +2,7 @@ package com.demo.movies.service;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
@@ -54,9 +55,17 @@ public class MovieService {
 			throw new IllegalArgumentException("Movie id missing");
 		}
 		
-		Query query = em.createQuery("DELETE Movie m WHERE m.id = ?1");
+		Query query = em.createNamedQuery("Movie.deleteOne");
 		query.setParameter(1, movieId);
 		query.executeUpdate();
+	}
+
+	public Optional<Movie> getMovie(String movieId) {
+		if (movieId==null) return Optional.empty();
+		TypedQuery<Movie> query = em.createNamedQuery("Movie.fetchOne", Movie.class);
+		query.setParameter(1, movieId);
+		Movie movie = query.getSingleResult();
+		return Optional.ofNullable(movie);
 	}
 
 }

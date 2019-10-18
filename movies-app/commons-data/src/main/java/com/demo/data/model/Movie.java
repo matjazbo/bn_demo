@@ -29,7 +29,9 @@ import com.demo.data.model.validation.ImdbId;
 			@Index(name = "mv_title_idx",  columnList="title", unique = false)
 			})
 @NamedQueries(value = {
-		@NamedQuery(name = "Movie.fetchAll", query = "SELECT m FROM Movie m LEFT JOIN FETCH m.actors")
+		@NamedQuery(name = "Movie.fetchAll", query = "SELECT m FROM Movie m LEFT JOIN FETCH m.actors"),
+		@NamedQuery(name = "Movie.fetchOne", query = "SELECT m FROM Movie m LEFT JOIN FETCH m.actors WHERE m.id = ?1"),
+		@NamedQuery(name = "Movie.deleteOne", query = "DELETE Movie m WHERE m.id = ?1"),
 }) 
 public class Movie {
 
