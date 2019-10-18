@@ -22,18 +22,14 @@ public abstract class AbstractCounterFactory implements CounterFactory {
 	 * @param counterId counter identifier
 	 * @param configuration a configuration object for creating the counter
 	 * @return new Counter object if it doesn't exist for given id, or an existing object from cache
-	 *
-	 * TODO - sync done in a hurry, check if everything is ok
 	 */
 	@Override
 	public Counter getCounter(String counterId, CounterConfiguration configuration) {
 		
-		synchronized (counterCache) {
-			if (counterCache.containsKey(counterId)) {
-				Counter counterFromCache = counterCache.get(counterId);
-				logger.trace("Counter cache hit for id {}", counterId);
-				return counterFromCache;
-			}
+		if (counterCache.containsKey(counterId)) {
+			Counter counterFromCache = counterCache.get(counterId);
+			logger.trace("Counter cache hit for id {}", counterId);
+			return counterFromCache;
 		}
 		Counter c = createNewCounter(counterId, configuration);
 		if (c == null) return null;
