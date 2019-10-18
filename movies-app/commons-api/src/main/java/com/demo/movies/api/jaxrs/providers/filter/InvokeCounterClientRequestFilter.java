@@ -6,17 +6,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 
-import com.demo.movies.api.annotation.Asynchronous;
-import com.demo.movies.api.configuration.CounterConfiguration;
-import com.demo.movies.api.counter.executor.CounterExecutor;
-import com.demo.movies.api.counter.factory.CounterFactory;
 import com.demo.movies.api.counter.service.CounterService;
 
 /**
@@ -29,13 +24,6 @@ import com.demo.movies.api.counter.service.CounterService;
  */
 @Provider
 public class InvokeCounterClientRequestFilter implements ContainerRequestFilter  {
-
-	@Inject @Asynchronous
-	private CounterExecutor counterExecutor;
-	@Inject
-	private CounterFactory counterFactory;
-	@Inject
-	private CounterConfiguration counterConfiguration;
 
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
@@ -57,9 +45,8 @@ public class InvokeCounterClientRequestFilter implements ContainerRequestFilter 
 		
 		String method = requestContext.getMethod();
 		if (method==null) method = "NOMETHOD";
-		//counterService.increaseCounter(method + "_" + pathId);
 		String counterId = String.format("%s_%s", method, pathId);
-		CounterService counterService = CounterService.getService(counterExecutor, counterFactory, counterConfiguration);
+		CounterService counterService = CounterService.getService();
 		counterService.increaseCounter(counterId);
 	}
 

@@ -43,8 +43,6 @@ public class CounterTest {
 	
 	@Inject @Synchronous ImmediateCounterExecutor 	synchronousCounterExecutor;
 	@Inject @Asynchronous AsyncCounterExecutor 		asynchronousCounterExecutor;
-	@Inject private CounterFactory counterFactory;
-	@Inject private CounterConfiguration counterConfiguration;
 	
 	@Inject MoviesConfiguration config;
 
@@ -73,7 +71,7 @@ public class CounterTest {
     public void testCounterServiceSynchronously() throws Exception {
     	int counterId = new Random().nextInt(100);
     	
-    	CounterService counterService = CounterService.getService(synchronousCounterExecutor, counterFactory, counterConfiguration);
+    	CounterService counterService = CounterService.getService();
     	Counter counter = counterService.increaseCounter(TEST_COUNTER_PREFIX + counterId);
     	System.out.println(counter);
     	if (counter instanceof FileSystemCounter) {

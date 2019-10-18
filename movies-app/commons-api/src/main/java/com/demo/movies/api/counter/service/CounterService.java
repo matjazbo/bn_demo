@@ -1,5 +1,7 @@
 package com.demo.movies.api.counter.service;
 
+import java.util.Objects;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,17 +20,29 @@ public class CounterService {
 
 	private static final Logger logger = LogManager.getLogger(CounterService.class);
 	
+	private static CounterService service;
+	
 	private CounterFactory counterFactory;
 	private CounterExecutor counterExecutor;
 	private CounterConfiguration counterConfiguration;
 
 	private CounterService() {};
 	
-	public static CounterService getService(CounterExecutor counterExecutor, CounterFactory counterFactory, CounterConfiguration counterConfiguration) {
-		CounterService service = new CounterService();
-		service.counterExecutor = counterExecutor;
-		service.counterFactory = counterFactory;
-		service.counterConfiguration = counterConfiguration;
+	public static void initialize(CounterExecutor counterExecutor, CounterFactory counterFactory, CounterConfiguration counterConfiguration) {
+		if (service==null) {
+			synchronized (CounterService.class) {
+				if (service==null) {	// double check locking
+					service = new CounterService();
+					service.counterExecutor = counterExecutor;
+					service.counterFactory = counterFactory;
+					service.counterConfiguration = counterConfiguration;
+				}
+			}
+		}
+	}
+
+	public static CounterService getService() {
+		Objects.nonNull(service);
 		return service;
 	}
 	
