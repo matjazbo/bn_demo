@@ -3,12 +3,12 @@ package com.demo.movies.api.configuration;
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
 
 /**
- * Class shared among all the configuration classes for the application.
+ * Class shared among all the configuration classes for the api layer.
  * 
  * @author Matjaz
  *
  */
-public abstract class ApplicationCommonConfiguration implements CounterConfiguration {
+public abstract class ApiCommonConfiguration implements CounterConfiguration {
 
 	private ConfigurationUtil configUtil;
 	

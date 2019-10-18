@@ -7,7 +7,7 @@ import com.kumuluz.ee.configuration.cdi.ConfigValue;
 
 @ApplicationScoped
 @ConfigBundle("movies")
-public class MoviesConfiguration extends ApplicationCommonConfiguration {
+public class MoviesConfiguration extends ApiCommonConfiguration {
 
     @ConfigValue(value = "counters.file-system.path", watch = true)
     private String countersFilesystemPath;
@@ -31,4 +31,5 @@ public class MoviesConfiguration extends ApplicationCommonConfiguration {
 	public void setHttpCacheMaxAge(Integer httpCacheMaxAge) {
 		this.httpCacheMaxAge = httpCacheMaxAge;
 	}
+
 }
