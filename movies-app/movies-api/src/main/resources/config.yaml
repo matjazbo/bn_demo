@@ -12,6 +12,8 @@ kumuluzee:
       port: 8080
 
 movies:
+  http-cache:
+    max-age: 60
   counters:
     file-system:
       path: c:/temp/

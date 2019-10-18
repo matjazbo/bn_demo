@@ -3,14 +3,17 @@ package com.demo.movies.api.cache;
 import java.util.Objects;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import com.demo.movies.api.configuration.MoviesConfiguration;
+
 /**
  * Builds response with client caching for the given request
- * TODO - add configuration option to add max-age
  * 
  * @author Matjaz
  *
@@ -18,6 +21,10 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 @RequestScoped
 public class RequestClientCachingBuilder {
 
+	@Inject
+	MoviesConfiguration configuration;
+
+	
 	/**
 	 * Wrapper to addCaching() that defaults to 
 	 * calculating cacheId from object's hashCode
@@ -39,14 +46,22 @@ public class RequestClientCachingBuilder {
 	 */
 	public ResponseBuilder addCaching(Request request, Object entity, String cacheId) {
 		EntityTag etag = new EntityTag(cacheId);
-	    ResponseBuilder builder = request.evaluatePreconditions(etag);		
+
+		ResponseBuilder builder = request.evaluatePreconditions(etag);		
 		
 	    // cached resource did change -> serve updated content
 	    if(builder == null){
 	        builder = Response.ok(entity);
 	        builder.tag(etag);
 	    }
-		
+
+	    // add max-age if configured
+	    if (configuration.getHttpCacheMaxAge()!=null) { 
+	    	CacheControl cc = new CacheControl();
+	    	cc.setMaxAge(configuration.getHttpCacheMaxAge());
+	    	builder.cacheControl(cc);
+	    }
+	    
 		return builder;
 	}
 
