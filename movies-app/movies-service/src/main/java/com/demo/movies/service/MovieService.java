@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.demo.movies.data.model.Movie;
+import com.demo.data.model.Movie;
 
 /**
  * Business logic provider class.

@@ -1,4 +1,4 @@
-package com.demo.movies.data.model;
+package com.demo.data.model;
 
 import java.util.Date;
 import java.util.Set;

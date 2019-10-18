@@ -13,11 +13,6 @@
 		<!-- Service layer -->
 		<dependency>
 			<groupId>com.demo</groupId>
-			<artifactId>movies-service</artifactId>
-			<version>${demoproject.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.demo</groupId>
 			<artifactId>uploader-service</artifactId>
 			<version>${demoproject.version}</version>
 		</dependency>

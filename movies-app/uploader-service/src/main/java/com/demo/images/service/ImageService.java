@@ -15,10 +15,10 @@ import javax.transaction.Transactional;
 
 import org.apache.commons.io.FileUtils;
 
+import com.demo.data.model.Image;
+import com.demo.data.model.Movie;
+import com.demo.data.model.validation.ImdbId;
 import com.demo.images.configuration.ImagesConfiguration;
-import com.demo.movies.data.model.Image;
-import com.demo.movies.data.model.Movie;
-import com.demo.movies.data.model.validation.ImdbId;
 
 @RequestScoped
 public class ImageService {
@@ -30,7 +30,7 @@ public class ImageService {
 	ImagesConfiguration configuration;
 	
 	public List<Image> getImagesForMovieId(@ImdbId String movieId) {
-		TypedQuery<Image> query = em.createQuery("SELECT i FROM Image i WHERE i.movie.id = ?1", Image.class);
+		TypedQuery<Image> query = em.createQuery("SELECT i FROM Image i WHERE i.movieId = ?1", Image.class);
 		query.setParameter(1, movieId);
 		List<Image> result = query.getResultList();
 		return result;

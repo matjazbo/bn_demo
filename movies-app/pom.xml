@@ -13,6 +13,8 @@
 		<module>uploader-service</module>
 		<module>images-api</module>
 		<module>commons-api</module>
+		<module>images-data</module>
+		<module>commons-data</module>
 	</modules>
 
 	<properties>

@@ -21,8 +21,8 @@ import javax.ws.rs.core.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.demo.data.model.Movie;
 import com.demo.movies.api.cache.RequestClientCachingBuilder;
-import com.demo.movies.data.model.Movie;
 import com.demo.movies.service.MovieService;
 import com.kumuluz.ee.logs.cdi.Log;
 import com.kumuluz.ee.logs.cdi.LogParams;

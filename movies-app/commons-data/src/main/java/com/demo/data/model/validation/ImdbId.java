@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.demo.movies.data.model.validation;
+package com.demo.data.model.validation;
 
 
 import static java.lang.annotation.ElementType.FIELD;

@@ -1,14 +1,14 @@
-package com.demo.movies.data.model;
+package com.demo.data.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.demo.data.model.validation.ImdbId;
 
 @Entity
 public class Image {
@@ -18,10 +18,13 @@ public class Image {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	
+	@ImdbId
+	@Column(name = "movie_id")
+	private String movieId;
+	
 	private String name;
 	
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
+	@Transient
 	private Movie movie;
 
 	public Long getId() {

@@ -23,9 +23,9 @@ import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
+import com.demo.data.model.Image;
 import com.demo.images.service.ImageService;
 import com.demo.movies.api.cache.RequestClientCachingBuilder;
-import com.demo.movies.data.model.Image;
 import com.kumuluz.ee.logs.cdi.Log;
 import com.kumuluz.ee.logs.cdi.LogParams;
 

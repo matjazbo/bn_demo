@@ -6,29 +6,15 @@
 		<artifactId>movies-app</artifactId>
 		<version>${demoproject.version}</version>
 	</parent>
-	<artifactId>uploader-service</artifactId>
+	<artifactId>images-data</artifactId>
 
 	<dependencies>
 
-		<!-- KumuluzEE CDI -->
-		<dependency>
-			<groupId>com.kumuluz.ee</groupId>
-			<artifactId>kumuluzee-cdi-weld</artifactId>
-		</dependency>
-
-		<!-- Data service layer -->
+		<!-- Service layer -->
 		<dependency>
 			<groupId>com.demo</groupId>
-			<artifactId>images-data</artifactId>
+			<artifactId>commons-data</artifactId>
 			<version>${demoproject.version}</version>
 		</dependency>
-
-		<!-- Apache commons IO -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.6</version>
-		</dependency>
-
 	</dependencies>
 </project>

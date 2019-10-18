@@ -1,4 +1,4 @@
-package com.demo.movies.data.model;
+package com.demo.data.model;
 
 import java.util.List;
 import java.util.Set;
@@ -14,14 +14,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.demo.movies.data.model.validation.ImdbId;
+import com.demo.data.model.validation.ImdbId;
 
 
 @Entity
@@ -29,7 +29,7 @@ import com.demo.movies.data.model.validation.ImdbId;
 			@Index(name = "mv_title_idx",  columnList="title", unique = false)
 			})
 @NamedQueries(value = {
-		@NamedQuery(name = "Movie.fetchAll", query = "SELECT m FROM Movie m LEFT JOIN FETCH m.actors LEFT JOIN FETCH m.images")
+		@NamedQuery(name = "Movie.fetchAll", query = "SELECT m FROM Movie m LEFT JOIN FETCH m.actors")
 }) 
 public class Movie {
 
@@ -60,7 +60,8 @@ public class Movie {
 	@Column(updatable = false)	// this doesnt work, why?
 	private Set<Actor> actors;
 
-	@OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+	//@OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+	@Transient
 	private List<Image> images;
 
 	/**

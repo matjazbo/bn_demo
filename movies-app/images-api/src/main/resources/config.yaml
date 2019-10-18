@@ -1,8 +1,8 @@
 # KumuluzEE application configuration
 kumuluzee:
   datasources:
-    - jndi-name: jdbc/MoviesDataSource
-      connection-url: jdbc:h2:tcp://localhost:8091/mem:movies
+    - jndi-name: jdbc/ImagesDataSource
+      connection-url: jdbc:h2:mem:images
       username: 
       password: 
       pool:

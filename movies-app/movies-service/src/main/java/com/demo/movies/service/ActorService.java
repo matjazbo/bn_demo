@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.demo.movies.data.model.Actor;
+import com.demo.data.model.Actor;
 
 @RequestScoped
 public class ActorService {
