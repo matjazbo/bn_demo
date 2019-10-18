@@ -62,7 +62,7 @@ public class ActorResource {
 	
 	@DELETE
 	@Path("{id}")
-	public Response deleteActor(@PathParam("id") String actorId) {
+	public Response deleteActor(@PathParam("id") Long actorId) {
 		actorService.deleteActor(actorId);
 		return Response.noContent().build();
 	}

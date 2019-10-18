@@ -5,6 +5,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -39,18 +40,14 @@ public class ActorService {
 	}
 	
 	@Transactional
-	public void deleteActor(String actorId) {
-		if (actorId==null || actorId.isBlank()) {
+	public void deleteActor(Long actorId) {
+		if (actorId==null) {
 			throw new IllegalArgumentException("Actor id missing");
 		}
 		
-		// TODO - remove with
-		//  @Modifying
-	    //	@Query("DELETE Book b WHERE b.category.id = ?1")
-		Actor actor = em.getReference(Actor.class, actorId);
-		if (actor!=null) {
-			em.remove(actor);
-		}
+		Query query = em.createQuery("DELETE Actor a WHERE a.id = ?1");
+		query.setParameter(1, actorId);
+		query.executeUpdate();
 	}
 	
 }
