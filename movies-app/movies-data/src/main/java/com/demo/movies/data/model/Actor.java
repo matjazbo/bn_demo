@@ -8,9 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -18,6 +20,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
+@Table(indexes = {
+		@Index(name = "act_name1_idx",  columnList="firstName", unique = false),
+		@Index(name = "act_name2_idx",  columnList="lastName", unique = false),
+		@Index(name = "act_name3_idx",  columnList="firstName,lastName", unique = false)
+		})
 @NamedQueries(value = {
 		@NamedQuery(name = "Actor.fetchAll", query = "SELECT a FROM Actor a")
 }) 

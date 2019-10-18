@@ -8,12 +8,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -23,6 +25,9 @@ import com.demo.movies.data.model.validation.ImdbId;
 
 
 @Entity
+@Table(indexes = {
+			@Index(name = "mv_title_idx",  columnList="title", unique = false)
+			})
 @NamedQueries(value = {
 		@NamedQuery(name = "Movie.fetchAll", query = "SELECT m FROM Movie m LEFT JOIN FETCH m.actors LEFT JOIN FETCH m.images")
 }) 
