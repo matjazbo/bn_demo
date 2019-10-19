@@ -8,8 +8,8 @@
 			<AppenderRef ref="console" />
 		</Root>
 
-		<!-- Default logger for API -->
-		<Logger name="com.demo.movies.api" level="debug" additivity="false">
+		<!-- Default logger application -->
+		<Logger name="com.demo.movies" level="debug" additivity="false">
 			<AppenderRef ref="console" />
 		</Logger>
 		
