@@ -1,6 +1,7 @@
 package com.demo.data.model;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -68,12 +69,11 @@ public class Movie {
 
 	/**
 	 * Two Movies with the same id should be equal
-	 * TODO - hash code should be calculated from every field value
 	 */
 	@Override
 	public int hashCode() {
-		if (id==null) return 0;
-		return id.hashCode();
+		int hashCode = Objects.hash(id, title, year, description, actors, images);
+		return hashCode;
 	}
 
 	@Override

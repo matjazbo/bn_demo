@@ -1,5 +1,7 @@
 package com.demo.data.model;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -61,8 +63,7 @@ public class Image {
 
 	@Override
 	public int hashCode() {
-		if (getId()==null) return 0;
-		return getId().hashCode();
+		return Objects.hash(id, name, movieId);
 	}
 	
 }

@@ -1,6 +1,7 @@
 package com.demo.data.model;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -90,8 +91,7 @@ public class Actor {
 
 	@Override
 	public int hashCode() {
-		if (getId()==null) return 0;
-		return getId().hashCode();
+		return Objects.hash(id, firstName, lastName, dateOfBirth);
 	}
 
 
