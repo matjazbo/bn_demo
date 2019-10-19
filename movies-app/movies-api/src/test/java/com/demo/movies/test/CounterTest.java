@@ -43,9 +43,10 @@ public class CounterTest {
 	
 	@Inject @Synchronous ImmediateCounterExecutor 	synchronousCounterExecutor;
 	@Inject @Asynchronous AsyncCounterExecutor 		asynchronousCounterExecutor;
+	@Inject CounterFactory counterFactory;
+	@Inject CounterConfiguration counterConfiguration;
 	
 	@Inject MoviesConfiguration config;
-
 
 	
     @Deployment
@@ -53,7 +54,7 @@ public class CounterTest {
         JavaArchive jar = ShrinkWrap.create(JavaArchive.class)
         		.addPackages(true, Counter.class.getPackage())
         		.addPackages(true, Asynchronous.class.getPackage())
-        		.addClass(MoviesConfiguration.class)
+        		.addPackages(true, MoviesConfiguration.class.getPackage())
                 .addAsResource("config.yaml", "config.yaml") 
                 .addAsResource("log4j2.xml", "log4j2.xml") 
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
@@ -71,6 +72,7 @@ public class CounterTest {
     public void testCounterServiceSynchronously() throws Exception {
     	int counterId = new Random().nextInt(100);
     	
+		CounterService.initialize(synchronousCounterExecutor, counterFactory, counterConfiguration);
     	CounterService counterService = CounterService.getService();
     	Counter counter = counterService.increaseCounter(TEST_COUNTER_PREFIX + counterId);
     	System.out.println(counter);
