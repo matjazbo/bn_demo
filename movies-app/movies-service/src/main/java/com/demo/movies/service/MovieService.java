@@ -114,7 +114,7 @@ public class MovieService {
 	public List<Movie> getAllMovies(String findByField, String searchTerm) {
 		QueryFilter qf = new QueryFilter();
 		qf.setField(findByField);
-		qf.setValue(String.format("%%%s%%", searchTerm));	// produces "%value%"
+		qf.setValue(String.format("%%%s%%", searchTerm));	// produces "%searchTerm%"
 		qf.setOperation(FilterOperation.LIKE);
 		List<QueryFilter> queryFilters = Collections.singletonList(qf);
 
