@@ -57,6 +57,14 @@ public class MovieResource {
 	}
 	
 	@GET
+	@Path("findBy/{field}/{value}")
+	public Response getMoviesFindBy(@PathParam("field") String field, @PathParam("value") String value, @Context Request request) {
+		List<Movie> movies = movieService.getAllMovies(field, value);
+		
+		return cacheBuilder.addCaching(request, movies).build();
+	}
+	
+	@GET
 	@Path("{movieId}")
 	public Response getMovie(@PathParam("movieId") String movieId, @Context Request request) {
 		Optional<Movie> movie = movieService.getMovie(movieId);

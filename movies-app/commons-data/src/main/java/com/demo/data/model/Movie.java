@@ -55,7 +55,7 @@ public class Movie {
 	@Size(max = 5000)
 	private String description;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
 			name = "movies_actors", 
 			joinColumns = @JoinColumn(name = "movie_id"), 

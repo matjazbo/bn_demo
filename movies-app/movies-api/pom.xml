@@ -35,12 +35,6 @@
 			<artifactId>kumuluzee-servlet-jetty</artifactId>
 		</dependency>
 
-		<!-- JAX RS -->
-		<dependency>
-			<groupId>com.kumuluz.ee</groupId>
-			<artifactId>kumuluzee-jax-rs-jersey</artifactId>
-		</dependency>
-
 		<!-- Testing -->
 		<dependency>
 			<groupId>com.kumuluz.ee.testing</groupId>

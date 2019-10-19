@@ -19,6 +19,10 @@
 
 		<!-- KumuluzEE Rest Client -->
 		<dependency>
+		    <groupId>com.kumuluz.ee.rest</groupId>
+		    <artifactId>kumuluzee-rest-core</artifactId>
+		</dependency>		
+		<dependency>
 			<groupId>com.kumuluz.ee.rest-client</groupId>
 			<artifactId>kumuluzee-rest-client</artifactId>
 		</dependency>
