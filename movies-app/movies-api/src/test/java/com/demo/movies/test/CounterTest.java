@@ -68,12 +68,15 @@ public class CounterTest {
                 .addAsResource("log4j2.xml", "log4j2.xml") 
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
         
-        logger.info(jar.toString(true));
+        /** helper code below to debug deployed jar, can be removed if not needed **/
+        logger.debug(jar.toString(true));
         boolean exportToZip = false;
         if (exportToZip) {
 	        ZipExporterImpl ze = new ZipExporterImpl(jar);
 	        ze.exportTo(new File("c:/temp/test.jar"));
         }
+        
+        
         return jar;
     }
     
