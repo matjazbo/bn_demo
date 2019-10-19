@@ -36,8 +36,6 @@ public class ImageResource {
 
 	private static final Logger logger = LogManager.getLogger(ImageResource.class);
 
-	private static final String UPLOAD_FOLDER = "c:/temp/";
-
 	@Inject ImageService imageService;
 
 	@Inject
@@ -47,7 +45,7 @@ public class ImageResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/image/{movieId}")
+	@Path("/movie/{movieId}")
 	public Response getImagesForMovieId(@PathParam("movieId") String movieId, @Context Request request) {
 		List<Image> images = imageService.getImagesForMovieId(movieId);
 

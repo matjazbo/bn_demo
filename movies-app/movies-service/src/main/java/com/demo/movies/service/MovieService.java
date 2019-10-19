@@ -1,5 +1,7 @@
 package com.demo.movies.service;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -18,6 +20,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
@@ -28,10 +31,13 @@ import javax.ws.rs.core.MediaType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.microprofile.rest.client.RestClientBuilder;
+import org.eclipse.microprofile.rest.client.RestClientDefinitionException;
 
 import com.demo.data.model.Image;
 import com.demo.data.model.Movie;
 import com.demo.movies.configuration.MoviesDataConfiguration;
+import com.demo.movies.restclient.images.ImagesClient;
 
 /**
  * Business logic provider class.
@@ -51,12 +57,24 @@ public class MovieService {
 	MoviesDataConfiguration configuration;
 	
 	private Client client;
-	private WebTarget imagesWebTarget;
+	private WebTarget imagesWebTarget;	
+	private ImagesClient imagesClient;
 	
 	@PostConstruct
 	public void init() {
 		client = ClientBuilder.newClient();
 		imagesWebTarget = client.target(configuration.getServiceImagesUrl());
+		
+		if (imagesClient==null) {
+			try {
+				imagesClient = RestClientBuilder
+					    .newBuilder()
+					    .baseUrl(new URL(configuration.getServiceImagesUrl()))
+					    .build(ImagesClient.class);
+			} catch (IllegalStateException | RestClientDefinitionException | MalformedURLException e) {
+				logger.error("Error initializing images rest client.", e);
+			}
+		}
 	}
 
 	public List<Movie> getAllMovies() {
@@ -94,12 +112,19 @@ public class MovieService {
 	}
 	
 	protected List<Image> getImagesForMovieId(String movieId) {
-		if (movieId==null) return new ArrayList<>();
-		WebTarget getImageIdPath = imagesWebTarget.path("image/"+movieId);
-		Invocation.Builder invocationBuilder = getImageIdPath.request(MediaType.APPLICATION_JSON);
-		List<Image> response = invocationBuilder.get(new GenericType<List<Image>> () {});
+		if (movieId==null || imagesClient==null) return new ArrayList<>();
+
+		try {
+			List<Image> response = imagesClient.getImagesForMovieId(movieId);
+			return response;
+		} catch (ProcessingException e) {
+			logger.error("Error calling getImagesForMovieId from the images service. Returning empty list.", e);
+			return new ArrayList<>();
+		} catch (Exception e) {
+			logger.error("Unknown error calling getImagesForMovieId from the images service. Returning empty list.", e);
+			return new ArrayList<>();
+		}
 		
-		return response;
 	}
 	
 	/**
