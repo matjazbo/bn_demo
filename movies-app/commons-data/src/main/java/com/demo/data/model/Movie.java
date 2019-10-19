@@ -36,8 +36,6 @@ import com.demo.data.model.validation.ImdbId;
 }) 
 public class Movie {
 
-	// TODO define indexes
-	
 	@Id
 	@NotNull
 	@ImdbId
