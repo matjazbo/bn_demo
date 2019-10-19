@@ -2,7 +2,6 @@ package com.demo.movies.api.initializer;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Initialized;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
@@ -24,7 +23,7 @@ public class DemoInitializer {
 	@Inject @Asynchronous private CounterExecutor counterExecutor;
 	@Inject private CounterConfiguration counterConfiguration;
 	
-    public void init(@Observes @Initialized(RequestScoped.class) Object init) {
+    public void init(@Observes @Initialized(ApplicationScoped.class) Object init) {
     	logger.info("--- Initializaing DEMO application ---");
     	
     	logger.info("Initializaing Counter service");
