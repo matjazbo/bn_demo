@@ -56,17 +56,17 @@
 				<version>${kumuluzee-rest.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>com.kumuluz.ee.rest-client</groupId>
-			    <artifactId>kumuluzee-rest-client</artifactId>
-			    <version>${kumuluzee-rest-client.version}</version>
-			</dependency>		
-			<dependency>
-			    <groupId>com.kumuluz.ee</groupId>
-			    <artifactId>kumuluzee-json-p-jsonp</artifactId>
-			    <version>${kumuluzee-json-p-jsonp.version}</version>
+				<groupId>com.kumuluz.ee.rest-client</groupId>
+				<artifactId>kumuluzee-rest-client</artifactId>
+				<version>${kumuluzee-rest-client.version}</version>
 			</dependency>
-			
-			
+			<dependency>
+				<groupId>com.kumuluz.ee</groupId>
+				<artifactId>kumuluzee-json-p-jsonp</artifactId>
+				<version>${kumuluzee-json-p-jsonp.version}</version>
+			</dependency>
+
+
 
 			<!-- H2 database -->
 			<dependency>
@@ -84,10 +84,10 @@
 
 			<!-- Testing -->
 			<dependency>
-			    <groupId>com.kumuluz.ee.testing</groupId>
-			    <artifactId>kumuluzee-testing</artifactId>
-			    <version>${kumuluzee-testing.version}</version>
-			    <scope>test</scope>
+				<groupId>com.kumuluz.ee.testing</groupId>
+				<artifactId>kumuluzee-testing</artifactId>
+				<version>${kumuluzee-testing.version}</version>
+				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.kumuluz.ee.testing</groupId>
@@ -126,6 +126,22 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<!-- Build an executable JAR -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>com.kumuluz.ee.EeApplication</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			
 		</plugins>
 	</build>
 
