@@ -22,11 +22,17 @@
 			<artifactId>kumuluzee-cdi-weld</artifactId>
 		</dependency>
 		
+		<dependency>
+		    <groupId>com.kumuluz.ee.rest</groupId>
+		    <artifactId>kumuluzee-rest-core</artifactId>
+		</dependency>		
+		
 		<!-- JAX RS -->
         <dependency>
             <groupId>com.kumuluz.ee</groupId>
             <artifactId>kumuluzee-jax-rs-jersey</artifactId>
-        </dependency> 		
+        </dependency>
+        
 		
 		<!-- Bean validation -->
 		<dependency>

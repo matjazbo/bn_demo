@@ -8,7 +8,7 @@ import javax.ws.rs.ext.Provider;
 public class ConstraintViolationExceptionMapper extends AbstractExceptionMapper<ConstraintViolationException>  {
 
 	public Response toResponse(ConstraintViolationException exception) {
-		return defaultResponseBuilder(exception).status(Response.Status.BAD_REQUEST).build();
+		return unwrapExceptionResponseBuilder(exception).status(Response.Status.BAD_REQUEST).build();
 	}
 
 }

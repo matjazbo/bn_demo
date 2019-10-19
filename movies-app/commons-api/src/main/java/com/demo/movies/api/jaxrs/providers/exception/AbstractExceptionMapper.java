@@ -14,12 +14,20 @@ import javax.ws.rs.ext.ExceptionMapper;
  */
 public abstract class AbstractExceptionMapper<T extends Throwable> implements ExceptionMapper<T> {
 
-	protected ResponseBuilder defaultResponseBuilder(Throwable exception) {
+	protected ResponseBuilder unwrapExceptionResponseBuilder(Throwable exception) {
 		return Response
 				.status(Response.Status.INTERNAL_SERVER_ERROR)
 				.entity(unwrapException(exception))
 				.type(MediaType.TEXT_PLAIN);
 	}
+	
+	protected ResponseBuilder presentError(ErrorPresenter ep) {
+		return Response
+				.status(ep.getStatus())
+				.entity(ep)
+				.type(MediaType.APPLICATION_JSON);
+	}
+	
 	
 	protected String unwrapException(Throwable t) {
 		StringBuffer sb = new StringBuffer();

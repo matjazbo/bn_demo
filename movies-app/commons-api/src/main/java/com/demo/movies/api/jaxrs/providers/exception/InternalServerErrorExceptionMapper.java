@@ -9,7 +9,7 @@ public class InternalServerErrorExceptionMapper extends AbstractExceptionMapper<
 
 	@Override
 	public Response toResponse(InternalServerErrorException exception) {
-		return defaultResponseBuilder(exception).build();
+		return unwrapExceptionResponseBuilder(exception).build();
 	}
 	
 }
