@@ -28,7 +28,7 @@ public class CounterService {
 
 	private CounterService() {};
 	
-	public static void initialize(CounterExecutor counterExecutor, CounterFactory counterFactory, CounterConfiguration counterConfiguration) {
+	public static CounterService initialize(CounterExecutor counterExecutor, CounterFactory counterFactory, CounterConfiguration counterConfiguration) {
 		if (service==null) {
 			synchronized (CounterService.class) {
 				if (service==null) {	// double check locking
@@ -39,11 +39,18 @@ public class CounterService {
 				}
 			}
 		}
+		return service;
 	}
 
 	public static CounterService getService() {
 		Objects.nonNull(service);
 		return service;
+	}
+	
+	public void setExecutor(CounterExecutor executor) {
+		synchronized (this.counterExecutor) {
+			this.counterExecutor = executor;
+		}
 	}
 	
 	/**

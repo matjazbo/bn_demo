@@ -37,6 +37,7 @@ public class FileSystemCounter extends AbstractCounter {
 		}
 		Files.writeString(file.toPath(), String.valueOf(count));
 		logger.debug("Counter {} increased to {} in file {}", getId(), count, file.getAbsolutePath());
+		//System.out.println(String.format("Counter %s increased to %d in file %s", getId(), count, file.getAbsolutePath()));
 	}
 
 	public File getFile() {
