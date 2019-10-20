@@ -76,7 +76,8 @@ public class Movie {
 
 	@Override
 	public String toString() {
-		StringBuilder s = new StringBuilder(getId());
+		
+		StringBuilder s = new StringBuilder(Objects.toString(getId(),""));
 		s.append("] ").append(getTitle()).append(", ").append(getYear());
 		return s.toString();
 	}	
