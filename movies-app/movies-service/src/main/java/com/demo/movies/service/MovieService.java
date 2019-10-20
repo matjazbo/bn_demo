@@ -1,8 +1,7 @@
 package com.demo.movies.service;
 
+
 import java.net.ConnectException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -12,7 +11,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -22,29 +20,21 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.ProcessingException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.eclipse.microprofile.rest.client.RestClientBuilder;
-import org.eclipse.microprofile.rest.client.RestClientDefinitionException;
 
 import com.demo.data.model.Image;
 import com.demo.data.model.Movie;
-import com.demo.movies.configuration.MoviesDataConfiguration;
-import com.demo.movies.restclient.images.ImagesClient;
+import com.demo.movies.service.restclient.images.ImagesClient;
+import com.demo.movies.service.restclient.images.ImagesClientRest;
+import com.demo.movies.service.util.JPAUtilsCaller;
 import com.kumuluz.ee.rest.beans.QueryFilter;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.enums.FilterOperation;
-import com.kumuluz.ee.rest.utils.JPAUtils;
 import com.kumuluz.ee.rest.utils.QueryStringDefaults;
 
 /**
@@ -62,7 +52,10 @@ public class MovieService {
 	private EntityManager em;
 
 	@Inject
-	MoviesDataConfiguration configuration;
+	ImagesClientRest imagesClientRest;
+	
+	@Inject
+	JPAUtilsCaller jpaUtils;
 
 	private static QueryStringDefaults qsd = new QueryStringDefaults()
 			.maxLimit(200)
@@ -72,33 +65,10 @@ public class MovieService {
 	@Context
 	protected UriInfo uriInfo;	
 
-	// JAX-RS client
-	private Client client;
-	private WebTarget imagesWebTarget;
-
 	// KumuluzEE client
 	private ImagesClient imagesClient;
 
-	@PostConstruct
-	public void init() {
-		// initialize JAX-RS client
-		if (client==null || imagesWebTarget==null) {
-			client = ClientBuilder.newClient();
-			imagesWebTarget = client.target(configuration.getServiceImagesUrl());
-		}
 
-		// initialize KumuluzEE client
-		if (imagesClient==null) {
-			try {
-				imagesClient = RestClientBuilder
-						.newBuilder()
-						.baseUrl(new URL(configuration.getServiceImagesUrl()))
-						.build(ImagesClient.class);
-			} catch (IllegalStateException | RestClientDefinitionException | MalformedURLException e) {
-				logger.error("Error initializing images rest client.", e);
-			}
-		}
-	}
 
 	public List<Movie> getAllMovies() {
 		return getAllMovies(Optional.empty());
@@ -126,10 +96,10 @@ public class MovieService {
 				.queryEncoded(uriInfo.getRequestUri().getRawQuery())
 				.defaultFilters(queryFilters.orElse(Collections.emptyList()))
 				.build();
-		List<Movie> result = JPAUtils.queryEntities(em, Movie.class, qParams);
+		List<Movie> result = jpaUtils.queryEntities(em, Movie.class, qParams);
 
 		Set<String> moviesIds = result.stream().map(m -> m.getId()).collect(Collectors.toSet());
-		Map<String, List<Image>> images = getImagesForMoviesIds(moviesIds);
+		Map<String, List<Image>> images = getImagesForMoviesIdsMap(moviesIds);
 		result.stream().forEach(m -> {
 			m.setImages(images.get(m.getId()));
 		});
@@ -180,20 +150,12 @@ public class MovieService {
 	 * @param movieIds set of movie ids for which to fetch images
 	 * @return a map of movieId -> list of Images
 	 */
-	protected Map<String, List<Image>> getImagesForMoviesIds(Set<String> movieIds) {
+	public Map<String, List<Image>> getImagesForMoviesIdsMap(Set<String> movieIds) {
 		if (movieIds==null) return new HashMap<>();
-		String path = "movies/"+StringUtils.join(movieIds, ',');
-		WebTarget getImageIdPath = imagesWebTarget.path(path);
-		logger.debug("Invoking service: {}", path);
-		Invocation.Builder invocationBuilder = getImageIdPath.request(MediaType.APPLICATION_JSON);
+		String movieIdsCsv = StringUtils.join(movieIds, ',');
+		
 		try {
-			/**
-			 * Using JAX RS client to invoke another service, because KumuluzEE did not
-			 * deserialize response correctly. Instead of creating List of Image-s it
-			 * created List of LinkedHashMap-s.
-			 */
-			List<Image> response = invocationBuilder.get(new GenericType<List<Image>> () {});
-	
+			List<Image> response = imagesClientRest.getImagesForMoviesIds(movieIdsCsv);
 			Map<String, List<Image>> ret = new HashMap<>();
 			response.stream().forEach(image -> {
 				String movieId = image.getMovieId();
@@ -212,8 +174,7 @@ public class MovieService {
 				}
 			}
 			throw e;
-		}
-		
+		}		
 	}
 
 

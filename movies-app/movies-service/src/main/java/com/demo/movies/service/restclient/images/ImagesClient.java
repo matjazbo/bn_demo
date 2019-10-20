@@ -1,4 +1,4 @@
-package com.demo.movies.restclient.images;
+package com.demo.movies.service.restclient.images;
 
 import java.util.List;
 
