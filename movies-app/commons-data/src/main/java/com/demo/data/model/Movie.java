@@ -53,6 +53,7 @@ public class Movie {
 	@Size(max = 5000)
 	private String description;
 
+	// EAGER fetch because JPAUtils.queryEntities doesnt seem to support JOIN FETCH?
 	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
 			name = "movies_actors", 
@@ -61,7 +62,6 @@ public class Movie {
 	@Column(updatable = false)	// this doesnt work, why?
 	private Set<Actor> actors;
 
-	//@OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
 	@Transient
 	private List<Image> images;
 

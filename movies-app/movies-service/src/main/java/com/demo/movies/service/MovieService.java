@@ -27,6 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.demo.data.model.Actor;
 import com.demo.data.model.Image;
 import com.demo.data.model.Movie;
 import com.demo.movies.service.restclient.images.ImagesClient;
@@ -197,6 +198,16 @@ public class MovieService {
 			movie.setImages(getImagesForMovieId(movieId));
 		}
 		return Optional.ofNullable(movie);
+	}
+
+	@Transactional
+	public void addActorToMovie(String movieId, Long actorId) {
+		Movie movie = em.getReference(Movie.class, movieId);
+		if (movie==null) return;
+		Actor actor = em.getReference(Actor.class, actorId);
+		if (actor==null) return;
+		movie.getActors().add(actor);
+		em.merge(movie);
 	}
 
 }

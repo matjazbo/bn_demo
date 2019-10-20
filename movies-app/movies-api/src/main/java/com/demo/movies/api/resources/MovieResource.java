@@ -72,11 +72,17 @@ public class MovieResource {
 		return cacheBuilder.addCaching(request, movie.get()).build();
 	}
 	
-
+	@POST
+	@Path("{movieId}/addActor/{actorId}")
+	public Response addActorToMovie(@PathParam("movieId") String movieId, @PathParam("actorId") Long actorId) {
+		movieService.addActorToMovie(movieId, actorId);
+		return Response.noContent().build();
+	}
+	
 	@POST
 	public Response addNewMovie(@Valid Movie newMovie) {
 		movieService.newMovie(newMovie);
-		return Response.ok().entity(newMovie).build();
+		return Response.ok(newMovie).build();
 	}
 
 	@PUT
