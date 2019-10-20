@@ -4,6 +4,8 @@ import static io.restassured.RestAssured.DEFAULT_PORT;
 import static io.restassured.RestAssured.delete;
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
@@ -87,7 +89,7 @@ public class MovieApiTest {
 	}
 
 	@Test
-	public void add5MoviesTestPaging() throws JsonParseException, JsonMappingException, IOException {
+	public void add5MoviesTestPagingAndSearch() throws JsonParseException, JsonMappingException, IOException {
 		List<Movie> movies = mapToEntity("5movies.json", List.class, new TypeReference<List<Movie>>() {});
 		movies.stream().forEach(m -> {
 			logger.info("Adding movie {}", m);
@@ -96,13 +98,49 @@ public class MovieApiTest {
 			.post("/movies")
 			.then()
 			.statusCode(200);
+			
+			logger.info("Find movie {} by title {}", m.getId(), m.getTitle());
+			given().
+				pathParam("title", m.getTitle()).
+			when().
+				get("movies/findBy/title/{title}").
+			then().
+				assertThat().
+				statusCode(200).
+			and().
+				contentType(ContentType.JSON).
+			and().
+				body("[0].id", equalTo(m.getId()));
+			
+		});
+
+		// sort by ID
+		movies.sort((Movie m1, Movie m2) -> {
+			return m1.getId().compareTo(m2.getId());
 		});
 		
-		// TODO - test paging
+		// get second movie in list
+		Movie secondMovieInList = movies.get(1);
+		
+		// find test movies, sort them by ID and display 2 movies (limit=2), starting at 2nd (offset=1)
+		given().
+			pathParam("title", "Test movie").
+		when().
+			get("movies/findBy/title/{title}?offset=1&limit=2&order=id ASC").
+		then().
+			assertThat().
+			statusCode(200).
+		and().
+			contentType(ContentType.JSON).
+		and().
+			body("", hasSize(2)).
+		and().
+			body("[0].id", equalTo(secondMovieInList.getId()));
+		
 	}
+
 	
-	
-	
+	/****** utility functions below ******/
 	
 	protected static String getJson(String fileName) throws IOException {
 		Writer writer = new StringWriter();
@@ -115,9 +153,9 @@ public class MovieApiTest {
 	}
 	
 	protected static <T> T mapToEntity(String jsonFilename, Class<T> type, TypeReference<?> toValueTypeRef) throws JsonParseException, JsonMappingException, IOException {
+		jsonFilename = "json/" + jsonFilename;	// take files from src/test/resources/json
 		ObjectMapper mapper = new ObjectMapper();
-		InputStream rstream = MovieApiTest.class.getResourceAsStream(jsonFilename);
-		//if (List.class.isAssignableFrom(type)) {
+		InputStream rstream = MovieApiTest.class.getClassLoader().getResourceAsStream(jsonFilename);
 		if (toValueTypeRef!=null) {
 			T readValue = (T) mapper.readValue(rstream, type);
 			T obj = mapper.convertValue(readValue, toValueTypeRef);

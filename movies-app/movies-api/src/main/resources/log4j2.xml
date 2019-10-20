@@ -9,7 +9,7 @@
 		</Root>
 
 		<!-- Default logger application -->
-		<Logger name="com.demo.movies" level="debug" additivity="false">
+		<Logger name="com.demo.movies" level="info" additivity="false">
 			<AppenderRef ref="console" />
 		</Logger>
 		
