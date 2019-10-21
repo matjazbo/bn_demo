@@ -11,6 +11,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import com.demo.data.model.validation.ImdbId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Image {
@@ -26,6 +27,7 @@ public class Image {
 	
 	private String name;
 	
+	@JsonIgnore
 	@Transient
 	private Movie movie;
 

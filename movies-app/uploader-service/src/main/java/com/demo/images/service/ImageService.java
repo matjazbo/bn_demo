@@ -9,18 +9,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.io.FileUtils;
 
@@ -28,6 +22,7 @@ import com.demo.data.model.Image;
 import com.demo.data.model.Movie;
 import com.demo.data.model.validation.ImdbId;
 import com.demo.images.configuration.ImagesConfiguration;
+import com.demo.images.service.restclient.MoviesClient;
 
 @RequestScoped
 public class ImageService {
@@ -37,15 +32,9 @@ public class ImageService {
 	
 	@Inject
 	private ImagesConfiguration configuration;
-	
-	private Client client;
-	private WebTarget moviesWebTarget;
-	
-	@PostConstruct
-	public void init() {
-		client = ClientBuilder.newClient();
-		moviesWebTarget = client.target(configuration.getServiceMoviesUrl());
-	}
+
+	@Inject
+	private MoviesClient moviesClient;
 	
 	public List<Image> getImagesForMovieId(@ImdbId String movieId) {
 		TypedQuery<Image> query = em.createQuery("SELECT i FROM Image i WHERE i.movieId = ?1", Image.class);
@@ -56,11 +45,8 @@ public class ImageService {
 	
 	private Optional<Movie> getMovie(String movieId) {
 		if (movieId==null) return Optional.empty();
-		WebTarget getMovieIdPath = moviesWebTarget.path(movieId);
-		Invocation.Builder invocationBuilder = getMovieIdPath.request(MediaType.APPLICATION_JSON);		
-		Movie response = invocationBuilder.get(Movie.class);
-		
-		return Optional.ofNullable(response);
+		Movie clientResponse = moviesClient.getMovie(movieId);
+		return Optional.ofNullable(clientResponse);
 	}
 	
 	@Transactional
