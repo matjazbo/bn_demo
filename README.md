@@ -1,2 +1,2 @@
-# Beanius demo project
-Beanius demo project
+# Beenius demo project
+Beenius demo project
