@@ -1,6 +1,5 @@
 package com.demo.movies.service;
 
-
 import java.net.ConnectException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -54,7 +53,7 @@ public class MovieService {
 
 	@Inject
 	ImagesClientRest imagesClientRest;
-	
+
 	@Inject
 	JPAUtilsCaller jpaUtils;
 
@@ -62,14 +61,12 @@ public class MovieService {
 			.maxLimit(200)
 			.defaultLimit(10)
 			.defaultOffset(0);
-
+	
 	@Context
-	protected UriInfo uriInfo;	
+	protected UriInfo uriInfo;
 
 	// KumuluzEE client
 	private ImagesClient imagesClient;
-
-
 
 	public List<Movie> getAllMovies() {
 		return getAllMovies(Optional.empty());
@@ -79,13 +76,13 @@ public class MovieService {
 	 * Searches for movies where field (findByField) value contains the search term
 	 * 
 	 * @param findByField field by which to search
-	 * @param searchTerm search term
+	 * @param searchTerm  search term
 	 * @return list of Movie-s that match the query
 	 */
 	public List<Movie> getAllMovies(String findByField, String searchTerm) {
 		QueryFilter qf = new QueryFilter();
 		qf.setField(findByField);
-		qf.setValue(String.format("%%%s%%", searchTerm));	// produces "%searchTerm%"
+		qf.setValue(String.format("%%%s%%", searchTerm)); // produces "%searchTerm%"
 		qf.setOperation(FilterOperation.LIKE);
 		List<QueryFilter> queryFilters = Collections.singletonList(qf);
 
@@ -121,7 +118,7 @@ public class MovieService {
 
 	@Transactional
 	public void deleteMovie(String movieId) {
-		if (movieId==null || movieId.isBlank()) {
+		if (movieId == null || movieId.isBlank()) {
 			throw new IllegalArgumentException("Movie id missing");
 		}
 
@@ -131,7 +128,8 @@ public class MovieService {
 	}
 
 	protected List<Image> getImagesForMovieId(String movieId) {
-		if (movieId==null || imagesClient==null) return Collections.emptyList();
+		if (movieId == null || imagesClient == null)
+			return Collections.emptyList();
 
 		try {
 			List<Image> response = imagesClient.getImagesForMovieId(movieId);
@@ -148,25 +146,28 @@ public class MovieService {
 
 	/**
 	 * Returns images for multiple movies at once.
+	 * 
 	 * @param movieIds set of movie ids for which to fetch images
 	 * @return a map of movieId -> list of Images
 	 */
 	public Map<String, List<Image>> getImagesForMoviesIdsMap(Set<String> movieIds) {
-		if (movieIds==null) return new HashMap<>();
+		if (movieIds == null)
+			return new HashMap<>();
 		String movieIdsCsv = StringUtils.join(movieIds, ',');
-		
+
 		try {
 			List<Image> response = imagesClientRest.getImagesForMoviesIds(movieIdsCsv);
 			Map<String, List<Image>> ret = new HashMap<>();
 			response.stream().forEach(image -> {
 				String movieId = image.getMovieId();
-				if (!ret.containsKey(movieId)) ret.put(movieId, new LinkedList<>());
+				if (!ret.containsKey(movieId))
+					ret.put(movieId, new LinkedList<>());
 				ret.get(movieId).add(image);
 			});
-	
+
 			return ret;
 		} catch (ProcessingException e) {
-			if (e.getCause()!=null && e.getCause().getCause()!=null) {
+			if (e.getCause() != null && e.getCause().getCause() != null) {
 				Throwable cause = e.getCause().getCause();
 				if (cause instanceof ConnectException) {
 					// cant connect to the other service, return empty result
@@ -175,9 +176,8 @@ public class MovieService {
 				}
 			}
 			throw e;
-		}		
+		}
 	}
-
 
 	public Optional<Movie> getMovie(String movieId) {
 		return getMovie(movieId, false);
@@ -185,12 +185,14 @@ public class MovieService {
 
 	/**
 	 * Fetch a Movie from database.
-	 * @param movieId id of the movie
+	 * 
+	 * @param movieId    id of the movie
 	 * @param withImages if true it will fetch movie images from the images service
 	 * @return
 	 */
 	public Optional<Movie> getMovie(String movieId, boolean withImages) {
-		if (movieId==null) return Optional.empty();
+		if (movieId == null)
+			return Optional.empty();
 		TypedQuery<Movie> query = em.createNamedQuery("Movie.fetchOne", Movie.class);
 		query.setParameter(1, movieId);
 		Movie movie = query.getSingleResult();
@@ -203,9 +205,11 @@ public class MovieService {
 	@Transactional
 	public void addActorToMovie(String movieId, Long actorId) {
 		Movie movie = em.getReference(Movie.class, movieId);
-		if (movie==null) return;
+		if (movie == null)
+			return;
 		Actor actor = em.getReference(Actor.class, actorId);
-		if (actor==null) return;
+		if (actor == null)
+			return;
 		movie.getActors().add(actor);
 		em.merge(movie);
 	}

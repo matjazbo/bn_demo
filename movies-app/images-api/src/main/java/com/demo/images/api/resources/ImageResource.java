@@ -1,6 +1,5 @@
 package com.demo.images.api.resources;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -36,12 +35,12 @@ public class ImageResource {
 
 	private static final Logger logger = LogManager.getLogger(ImageResource.class);
 
-	@Inject ImageService imageService;
+	@Inject
+	ImageService imageService;
 
 	@Inject
-	private RequestClientCachingBuilder cacheBuilder;	
+	private RequestClientCachingBuilder cacheBuilder;
 
-	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -60,25 +59,23 @@ public class ImageResource {
 		List<Image> images = imageService.getImagesForMoviesIds(moviesIds);
 		return cacheBuilder.addCaching(request, images).build();
 	}
-	
+
 	@POST
 	@Path("/upload/{movieId}")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response uploadImageForMovie(
-			@FormDataParam("file") InputStream fileInputStream,
-			@FormDataParam("file") FormDataContentDisposition fileData,
-			@PathParam("movieId") String movieId) {
-		
+	public Response uploadImageForMovie(@FormDataParam("file") InputStream fileInputStream,
+			@FormDataParam("file") FormDataContentDisposition fileData, @PathParam("movieId") String movieId) {
+
 		if (fileInputStream == null || fileData == null || movieId == null)
 			return Response.status(Response.Status.BAD_REQUEST).build();
-		
+
 		try {
 			imageService.uploadImageFile(fileInputStream, fileData.getFileName(), movieId);
 		} catch (IOException e) {
 			logger.error("Error saving image " + fileData.getName() + " for movie id " + movieId, e);
 			Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
-		
+
 		return Response.noContent().build();
 	}
 

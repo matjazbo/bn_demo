@@ -24,44 +24,43 @@ public class RequestClientCachingBuilder {
 	@Inject
 	MoviesConfiguration configuration;
 
-	
 	/**
-	 * Wrapper to addCaching() that defaults to 
-	 * calculating cacheId from object's hashCode
+	 * Wrapper to addCaching() that defaults to calculating cacheId from object's
+	 * hashCode
 	 */
 	public ResponseBuilder addCaching(Request request, Object entity) {
 		Objects.nonNull(entity);
 		return addCaching(request, entity, Integer.toString(entity.hashCode()));
 	}
-	
+
 	/**
-	 * Evaluates if a content identified by cacheId has changed (according to the client).
-	 * If it has changed, response is built for the content with status OK.
+	 * Evaluates if a content identified by cacheId has changed (according to the
+	 * client). If it has changed, response is built for the content with status OK.
 	 * If it hasn't changed the 304 status code response is build and returned
 	 * 
 	 * @param request jaxrs request object
-	 * @param entity content entity that is to be responded
+	 * @param entity  content entity that is to be responded
 	 * @param cacheId content identifier
-	 * @return ResponseBuilder with correct status code and entity if applicable 
+	 * @return ResponseBuilder with correct status code and entity if applicable
 	 */
 	public ResponseBuilder addCaching(Request request, Object entity, String cacheId) {
 		EntityTag etag = new EntityTag(cacheId);
 
-		ResponseBuilder builder = request.evaluatePreconditions(etag);		
-		
-	    // cached resource did change -> serve updated content
-	    if(builder == null){
-	        builder = Response.ok(entity);
-	        builder.tag(etag);
-	    }
+		ResponseBuilder builder = request.evaluatePreconditions(etag);
 
-	    // add max-age if configured
-	    if (configuration.getHttpCacheMaxAge()!=null) { 
-	    	CacheControl cc = new CacheControl();
-	    	cc.setMaxAge(configuration.getHttpCacheMaxAge());
-	    	builder.cacheControl(cc);
-	    }
-	    
+		// cached resource did change -> serve updated content
+		if (builder == null) {
+			builder = Response.ok(entity);
+			builder.tag(etag);
+		}
+
+		// add max-age if configured
+		if (configuration.getHttpCacheMaxAge() != null) {
+			CacheControl cc = new CacheControl();
+			cc.setMaxAge(configuration.getHttpCacheMaxAge());
+			builder.cacheControl(cc);
+		}
+
 		return builder;
 	}
 

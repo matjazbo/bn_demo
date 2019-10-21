@@ -17,21 +17,20 @@ public class MoviesClientImpl implements MoviesClient {
 
 	@Inject
 	private ImagesConfiguration configuration;
-	
+
 	private Client client;
 	private WebTarget moviesWebTarget;
-	
+
 	@PostConstruct
 	public void init() {
 		client = ClientBuilder.newClient();
 		moviesWebTarget = client.target(configuration.getServiceMoviesUrl());
 	}
-	
-	
+
 	@Override
 	public Movie getMovie(String movieId) {
 		WebTarget getMovieIdPath = moviesWebTarget.path(movieId);
-		Invocation.Builder invocationBuilder = getMovieIdPath.request(MediaType.APPLICATION_JSON);		
+		Invocation.Builder invocationBuilder = getMovieIdPath.request(MediaType.APPLICATION_JSON);
 		Movie response = invocationBuilder.get(Movie.class);
 		return response;
 	}

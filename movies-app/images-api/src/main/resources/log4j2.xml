@@ -12,10 +12,10 @@
 		<Logger name="com.demo.images.api" level="debug" additivity="false">
 			<AppenderRef ref="console" />
 		</Logger>
-		
+
 		<Logger name="org.hibernate.SQL" level="debug" additivity="false">
 			<AppenderRef ref="console" />
-		</Logger>		
+		</Logger>
 
 	</Loggers>
 

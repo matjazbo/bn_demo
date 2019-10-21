@@ -35,13 +35,13 @@ import com.kumuluz.ee.logs.cdi.LogParams;
 public class ActorResource {
 
 	private static final Logger logger = LogManager.getLogger(ActorResource.class);
-	
+
 	@Inject
 	private ActorService actorService;
-	
+
 	@Inject
-	private RequestClientCachingBuilder cacheBuilder;	
-	
+	private RequestClientCachingBuilder cacheBuilder;
+
 	@GET
 	public Response getActors(@Context Request request) {
 		List<Actor> actors = actorService.getAllActors();
@@ -55,16 +55,16 @@ public class ActorResource {
 	}
 
 	@PUT
-	public Response updateActor(@Valid Actor actor) {		
+	public Response updateActor(@Valid Actor actor) {
 		actorService.updateActor(actor);
 		return Response.noContent().build();
 	}
-	
+
 	@DELETE
 	@Path("{id}")
 	public Response deleteActor(@PathParam("id") Long actorId) {
 		actorService.deleteActor(actorId);
 		return Response.noContent().build();
 	}
-	
+
 }

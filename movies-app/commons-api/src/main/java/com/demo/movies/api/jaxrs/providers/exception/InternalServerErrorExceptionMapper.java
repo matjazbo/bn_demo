@@ -11,5 +11,5 @@ public class InternalServerErrorExceptionMapper extends AbstractExceptionMapper<
 	public Response toResponse(InternalServerErrorException exception) {
 		return unwrapExceptionResponseBuilder(exception).build();
 	}
-	
+
 }

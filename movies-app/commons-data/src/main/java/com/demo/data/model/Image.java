@@ -20,13 +20,13 @@ public class Image {
 	@NotNull
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
-	
+
 	@ImdbId
 	@Column(name = "movie_id")
 	private String movieId;
-	
+
 	private String name;
-	
+
 	@JsonIgnore
 	@Transient
 	private Movie movie;
@@ -54,7 +54,7 @@ public class Image {
 	public void setMovie(Movie movie) {
 		this.movie = movie;
 	}
-	
+
 	public String getMovieId() {
 		return movieId;
 	}
@@ -67,5 +67,5 @@ public class Image {
 	public int hashCode() {
 		return Objects.hash(id, name, movieId);
 	}
-	
+
 }

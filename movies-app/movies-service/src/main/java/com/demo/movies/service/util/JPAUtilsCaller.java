@@ -9,8 +9,8 @@ import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 
 /**
- * Wrapper class for calling the static JPAUtils methods
- * which can not be mocked.
+ * Wrapper class for calling the static JPAUtils methods which can not be
+ * mocked.
  * 
  * @author Matjaz
  *
@@ -21,5 +21,5 @@ public class JPAUtilsCaller {
 	public <T> List<T> queryEntities(EntityManager em, Class<T> type, QueryParameters qParams) {
 		return JPAUtils.queryEntities(em, type, qParams);
 	}
-	
+
 }

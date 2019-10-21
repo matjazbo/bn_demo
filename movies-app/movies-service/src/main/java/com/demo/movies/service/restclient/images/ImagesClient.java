@@ -21,10 +21,10 @@ public interface ImagesClient {
 	@Path("movie/{movieId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	List<Image> getImagesForMovieId(@PathParam("movieId") String movieId);
-	
+
 	@GET
 	@Path("movies/{moviesIds}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Image> getImagesForMoviesIds(@PathParam("moviesIds") String moviesIds);
-	
+
 }

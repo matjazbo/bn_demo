@@ -14,5 +14,5 @@ public interface MoviesClient {
 	@Path("{movieId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	Movie getMovie(@PathParam("movieId") String movieId);
-	
+
 }

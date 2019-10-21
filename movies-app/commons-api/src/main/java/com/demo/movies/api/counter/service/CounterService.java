@@ -19,19 +19,21 @@ import com.demo.movies.api.counter.factory.CounterFactory;
 public class CounterService {
 
 	private static final Logger logger = LogManager.getLogger(CounterService.class);
-	
+
 	private static CounterService service;
-	
+
 	private CounterFactory counterFactory;
 	private CounterExecutor counterExecutor;
 	private CounterConfiguration counterConfiguration;
 
-	private CounterService() {};
-	
-	public static CounterService initialize(CounterExecutor counterExecutor, CounterFactory counterFactory, CounterConfiguration counterConfiguration) {
-		if (service==null) {
+	private CounterService() {
+	};
+
+	public static CounterService initialize(CounterExecutor counterExecutor, CounterFactory counterFactory,
+			CounterConfiguration counterConfiguration) {
+		if (service == null) {
 			synchronized (CounterService.class) {
-				if (service==null) {	// double check locking
+				if (service == null) { // double check locking
 					service = new CounterService();
 					service.counterExecutor = counterExecutor;
 					service.counterFactory = counterFactory;
@@ -46,27 +48,27 @@ public class CounterService {
 		Objects.nonNull(service);
 		return service;
 	}
-	
+
 	public void setExecutor(CounterExecutor executor) {
 		synchronized (this.counterExecutor) {
 			this.counterExecutor = executor;
 		}
 	}
-	
+
 	/**
 	 * Executes (increases) a counter using the given execution strategy
 	 * 
 	 * @return returns a Counter object if increaseCounter succeeded, otherwise null
 	 */
 	public Counter increaseCounter(String counterId) {
-		
+
 		Counter counter = counterFactory.getCounter(counterId, counterConfiguration);
-		
+
 		if (counter == null) {
 			logger.error("Could not increase counter, because factory didn't create object.");
 			return null;
 		}
-		
+
 		try {
 			counterExecutor.execute(counter);
 			return counter;
@@ -77,5 +79,5 @@ public class CounterService {
 		}
 		return null;
 	}
-	
+
 }

@@ -9,8 +9,8 @@ import com.kumuluz.ee.configuration.cdi.ConfigValue;
 @ConfigBundle("movies")
 public class MoviesDataConfiguration {
 
-    @ConfigValue(value = "service-images.url", watch = true)
-    private String serviceImagesUrl;
+	@ConfigValue(value = "service-images.url", watch = true)
+	private String serviceImagesUrl;
 
 	public String getServiceImagesUrl() {
 		return serviceImagesUrl;
@@ -19,6 +19,5 @@ public class MoviesDataConfiguration {
 	public void setServiceImagesUrl(String serviceImagesUrl) {
 		this.serviceImagesUrl = serviceImagesUrl;
 	}
-	
 
 }

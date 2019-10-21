@@ -9,7 +9,7 @@
 	<artifactId>commons-api</artifactId>
 
 	<dependencies>
-	
+
 		<!-- Log4J2 -->
 		<dependency>
 			<groupId>com.kumuluz.ee.logs</groupId>
@@ -21,24 +21,24 @@
 			<groupId>com.kumuluz.ee</groupId>
 			<artifactId>kumuluzee-cdi-weld</artifactId>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>com.kumuluz.ee.rest</groupId>
-		    <artifactId>kumuluzee-rest-core</artifactId>
-		</dependency>		
-		
+			<groupId>com.kumuluz.ee.rest</groupId>
+			<artifactId>kumuluzee-rest-core</artifactId>
+		</dependency>
+
 		<!-- JAX RS -->
-        <dependency>
-            <groupId>com.kumuluz.ee</groupId>
-            <artifactId>kumuluzee-jax-rs-jersey</artifactId>
-        </dependency>
-        
-		
+		<dependency>
+			<groupId>com.kumuluz.ee</groupId>
+			<artifactId>kumuluzee-jax-rs-jersey</artifactId>
+		</dependency>
+
+
 		<!-- Bean validation -->
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
-		</dependency>		
+		</dependency>
 
 	</dependencies>
 

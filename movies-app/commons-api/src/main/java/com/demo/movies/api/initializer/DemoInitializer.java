@@ -16,20 +16,22 @@ import com.demo.movies.api.counter.service.CounterService;
 
 @ApplicationScoped
 public class DemoInitializer {
-	
+
 	private static final Logger logger = LogManager.getLogger(DemoInitializer.class);
-	
-	@Inject	private CounterFactory counterFactory;
-	@Inject @Asynchronous private CounterExecutor counterExecutor;
-	@Inject private CounterConfiguration counterConfiguration;
-	
-    public void init(@Observes @Initialized(ApplicationScoped.class) Object init) {
-    	logger.info("--- Initializaing DEMO application ---");
-    	
-    	logger.info("Initializaing Counter service");
-    	CounterService.initialize(counterExecutor, counterFactory, counterConfiguration);
-    }
+
+	@Inject
+	private CounterFactory counterFactory;
+	@Inject
+	@Asynchronous
+	private CounterExecutor counterExecutor;
+	@Inject
+	private CounterConfiguration counterConfiguration;
+
+	public void init(@Observes @Initialized(ApplicationScoped.class) Object init) {
+		logger.info("--- Initializaing DEMO application ---");
+
+		logger.info("Initializaing Counter service");
+		CounterService.initialize(counterExecutor, counterFactory, counterConfiguration);
+	}
 
 }
-
-

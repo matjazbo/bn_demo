@@ -9,13 +9,12 @@ import com.kumuluz.ee.configuration.cdi.ConfigValue;
 @ConfigBundle("movies")
 public class MoviesConfiguration extends ApiCommonConfiguration {
 
-    @ConfigValue(value = "counters.file-system.path", watch = true)
-    private String countersFilesystemPath;
+	@ConfigValue(value = "counters.file-system.path", watch = true)
+	private String countersFilesystemPath;
 
 	@ConfigValue(value = "http-cache.max-age", watch = true)
 	private Integer httpCacheMaxAge;
 
-	
 	public String getCountersFilesystemPath() {
 		return countersFilesystemPath;
 	}

@@ -35,23 +35,23 @@ import com.demo.movies.configuration.MoviesDataConfiguration;
 public class ImagesClientRest implements ImagesClient {
 
 	private static final Logger logger = LogManager.getLogger(ImagesClientRest.class);
-	
+
 	// JAX-RS client
 	private Client client;
-	private WebTarget imagesWebTarget;	
-	
+	private WebTarget imagesWebTarget;
+
 	@Inject
 	MoviesDataConfiguration configuration;
-	
+
 	@PostConstruct
 	public void init() {
 		// initialize JAX-RS client
-		if (client==null || imagesWebTarget==null) {
+		if (client == null || imagesWebTarget == null) {
 			client = ClientBuilder.newClient();
 			imagesWebTarget = client.target(configuration.getServiceImagesUrl());
 		}
-	}	
-	
+	}
+
 	@Override
 	public List<Image> getImagesForMovieId(String movieId) {
 		// TODO Auto-generated method stub
@@ -60,13 +60,14 @@ public class ImagesClientRest implements ImagesClient {
 
 	@Override
 	public List<Image> getImagesForMoviesIds(String movieIdsCsv) {
-		String path = "movies/"+movieIdsCsv;
+		String path = "movies/" + movieIdsCsv;
 		WebTarget getImageIdPath = imagesWebTarget.path(path);
 		logger.debug("Invoking service: {}", path);
 		Invocation.Builder invocationBuilder = getImageIdPath.request(MediaType.APPLICATION_JSON);
-		
-		List<Image> response = invocationBuilder.get(new GenericType<List<Image>> () {});
+
+		List<Image> response = invocationBuilder.get(new GenericType<List<Image>>() {
+		});
 		return response;
 	}
-	
+
 }

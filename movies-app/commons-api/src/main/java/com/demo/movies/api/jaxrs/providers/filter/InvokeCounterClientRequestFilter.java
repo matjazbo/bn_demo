@@ -1,6 +1,5 @@
 package com.demo.movies.api.jaxrs.providers.filter;
 
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -15,36 +14,40 @@ import javax.ws.rs.ext.Provider;
 import com.demo.movies.api.counter.service.CounterService;
 
 /**
- * Inspects the request and identifies the current REST method that is being called.
- * Then increases the counter which represents how many times a ceratin REST method
- * was invoked.
+ * Inspects the request and identifies the current REST method that is being
+ * called. Then increases the counter which represents how many times a ceratin
+ * REST method was invoked.
  * 
  * @author Matjaz
  *
  */
 @Provider
-public class InvokeCounterClientRequestFilter implements ContainerRequestFilter  {
+public class InvokeCounterClientRequestFilter implements ContainerRequestFilter {
 
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		Objects.nonNull(requestContext);
-		
+
 		UriInfo uriInfo = requestContext.getUriInfo();
 
-		String pathId = "";	// string constructed from path segments that are not parameters, used to identify counter
-		
-		// scan path segments and use only those segments (for constructing counterId) that are not parameters
+		String pathId = ""; // string constructed from path segments that are not parameters, used to
+							// identify counter
+
+		// scan path segments and use only those segments (for constructing counterId)
+		// that are not parameters
 		Collection<List<String>> paramValues = uriInfo.getPathParameters().values();
 		for (PathSegment pathSegment : uriInfo.getPathSegments()) {
 			String path = pathSegment.getPath();
 			boolean pathSegementIsParameter = paramValues.stream().anyMatch(list -> {
 				return list.contains(path);
 			});
-			if (!pathSegementIsParameter) pathId += "_" + path; 
+			if (!pathSegementIsParameter)
+				pathId += "_" + path;
 		}
-		
+
 		String method = requestContext.getMethod();
-		if (method==null) method = "NOMETHOD";
+		if (method == null)
+			method = "NOMETHOD";
 		String counterId = String.format("%s_%s", method, pathId);
 		CounterService counterService = CounterService.getService();
 		counterService.increaseCounter(counterId);

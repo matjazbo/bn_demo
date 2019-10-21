@@ -8,13 +8,13 @@ import com.kumuluz.ee.configuration.cdi.ConfigValue;
 @ApplicationScoped
 @ConfigBundle("movies")
 public class ImagesConfiguration {
-	
-    @ConfigValue(value = "image.upload.path", watch = true)
-    private String imageUploadPath;
 
-    @ConfigValue(value = "service-movies.url", watch = true)
-    private String serviceMoviesUrl;
-    
+	@ConfigValue(value = "image.upload.path", watch = true)
+	private String imageUploadPath;
+
+	@ConfigValue(value = "service-movies.url", watch = true)
+	private String serviceMoviesUrl;
+
 	public String getImageUploadPath() {
 		return imageUploadPath;
 	}

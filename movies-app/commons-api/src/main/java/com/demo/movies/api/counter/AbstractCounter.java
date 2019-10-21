@@ -3,7 +3,7 @@ package com.demo.movies.api.counter;
 abstract class AbstractCounter implements Counter {
 
 	String counterId;
-	
+
 	@Override
 	public int hashCode() {
 		return counterId.hashCode();
@@ -13,7 +13,7 @@ abstract class AbstractCounter implements Counter {
 	public String toString() {
 		return String.format("%s [%s]", this.getClass().getName(), counterId);
 	}
-	
+
 	@Override
 	public String getId() {
 		return counterId;
@@ -23,5 +23,5 @@ abstract class AbstractCounter implements Counter {
 	public void setId(String counterId) {
 		this.counterId = counterId;
 	}
-	
+
 }

@@ -19,16 +19,11 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 @Entity
-@Table(indexes = {
-		@Index(name = "act_name1_idx",  columnList="firstName", unique = false),
-		@Index(name = "act_name2_idx",  columnList="lastName", unique = false),
-		@Index(name = "act_name3_idx",  columnList="firstName,lastName", unique = false)
-		})
-@NamedQueries(value = {
-		@NamedQuery(name = "Actor.fetchAll", query = "SELECT a FROM Actor a")
-}) 
+@Table(indexes = { @Index(name = "act_name1_idx", columnList = "firstName", unique = false),
+		@Index(name = "act_name2_idx", columnList = "lastName", unique = false),
+		@Index(name = "act_name3_idx", columnList = "firstName,lastName", unique = false) })
+@NamedQueries(value = { @NamedQuery(name = "Actor.fetchAll", query = "SELECT a FROM Actor a") })
 public class Actor {
 
 	@Id
@@ -46,7 +41,7 @@ public class Actor {
 
 	// Unidirectional only
 	@JsonIgnore
-	@ManyToMany(mappedBy = "actors", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(mappedBy = "actors", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<Movie> movies;
 
 	public Long getId() {
@@ -93,6 +88,5 @@ public class Actor {
 	public int hashCode() {
 		return Objects.hash(id, firstName, lastName, dateOfBirth);
 	}
-
 
 }

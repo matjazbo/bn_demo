@@ -42,43 +42,45 @@ import com.kumuluz.ee.logs.cdi.LogParams;
 public class MovieResource {
 
 	private static final Logger logger = LogManager.getLogger(MovieResource.class);
-	
+
 	@Inject
 	private MovieService movieService;
-	
+
 	@Inject
-	private RequestClientCachingBuilder cacheBuilder;	
-	
+	private RequestClientCachingBuilder cacheBuilder;
+
 	@GET
 	public Response getMovies(@Context Request request) {
 		List<Movie> movies = movieService.getAllMovies();
-		
+
 		return cacheBuilder.addCaching(request, movies).build();
 	}
-	
+
 	@GET
 	@Path("findBy/{field}/{value}")
-	public Response getMoviesFindBy(@PathParam("field") String field, @PathParam("value") String value, @Context Request request) {
+	public Response getMoviesFindBy(@PathParam("field") String field, @PathParam("value") String value,
+			@Context Request request) {
 		List<Movie> movies = movieService.getAllMovies(field, value);
-		
+
 		return cacheBuilder.addCaching(request, movies).build();
 	}
-	
+
 	@GET
 	@Path("{movieId}")
 	public Response getMovie(@PathParam("movieId") String movieId, @Context Request request) {
 		Optional<Movie> movie = movieService.getMovie(movieId);
-		if (movie.isEmpty()) return Response.status(Response.Status.NOT_FOUND).build();
+		if (movie.isEmpty())
+			return Response.status(Response.Status.NOT_FOUND).build();
 		return cacheBuilder.addCaching(request, movie.get()).build();
 	}
-	
+
 	@POST
 	@Path("{movieId}/addActor/{actorId}")
 	public Response addActorToMovie(@PathParam("movieId") String movieId, @PathParam("actorId") Long actorId) {
 		movieService.addActorToMovie(movieId, actorId);
 		return Response.noContent().build();
 	}
-	
+
 	@POST
 	public Response addNewMovie(@Valid Movie newMovie) {
 		movieService.newMovie(newMovie);
@@ -86,16 +88,16 @@ public class MovieResource {
 	}
 
 	@PUT
-	public Response updateMovie(@Valid Movie movie) {		
+	public Response updateMovie(@Valid Movie movie) {
 		movieService.updateMovie(movie);
 		return Response.noContent().build();
 	}
-	
+
 	@DELETE
 	@Path("{id}")
 	public Response deleteMovie(@PathParam("id") String movieId) {
 		movieService.deleteMovie(movieId);
 		return Response.noContent().build();
 	}
-	
+
 }
