@@ -4,6 +4,7 @@ package com.demo.images.service;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +16,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import javax.ws.rs.ProcessingException;
+import javax.ws.rs.WebApplicationException;
 
 import org.apache.commons.io.FileUtils;
 
@@ -69,8 +72,19 @@ public class ImageService {
 		
 		// 1. check if move exists and set movie id
 		Image i = new Image();
-		Movie movie = getMovie(movieId).orElseThrow();
-		i.setMovieId(movie.getId());
+		try {
+			Movie movie = getMovie(movieId).orElseThrow();
+			i.setMovieId(movie.getId());
+		} catch (ProcessingException e) {
+			if (e.getCause()!=null && e.getCause().getCause()!=null) {
+				Throwable cause = e.getCause().getCause();
+				if (cause instanceof ConnectException) {
+					// cant connect to the other service
+					throw new WebApplicationException("Movies service not available.");
+				}
+			}
+			throw e;
+		}
 		newImage(i);
 
 		// 2. prepend image id to filename to have unique filenames (or generate uuid?)
